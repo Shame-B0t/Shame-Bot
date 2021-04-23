@@ -11,6 +11,6 @@ client.once('ready', () => {
   // check for and make webhook if needed
 });
 
-client.login(process.env.TOKEN);  // makes a request to Discord API and logs in the bot, brings it online
+client.login(process.env.TOKEN);
 
 client.on('message', msgCallback);
