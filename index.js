@@ -6,7 +6,7 @@ const { msgCallback } = require('./commands/start');
 
 
 client.once('ready', () => {
-  console.log('Good to go, boss!');
+  // console.log('Good to go, boss!');
   // check for and make channel if needed
   // check for and make webhook if needed
 });

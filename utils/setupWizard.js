@@ -3,7 +3,7 @@
 function ifStart(message){
   if(message.content.startsWith('!start')){
 
-    const [mode, timeoutLength] = message.content.split(' ').slice(1);
+    const [mode] = message.content.split(' ').slice(1);
     // const sender = message.author.username;
     // const isActive = true;
     // const shameLevel = 0;  
