@@ -1,5 +1,5 @@
 describe('placeholder test', () => {
-	it('is true', () => {
-		expect(true).toEqual(true);
-	});
+  it('is true', () => {
+    expect(true).toEqual(true);
+  });
 });
