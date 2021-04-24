@@ -13,4 +13,4 @@ client.once('ready', () => {
 
 client.login(process.env.TOKEN);
 
-client.on('message', msgCallback);
+client.on('message', (message) => msgCallback(message, client));
