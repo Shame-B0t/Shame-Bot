@@ -2,7 +2,7 @@ require('dotenv').config();
 
 const Discord = require('discord.js');
 const client = new Discord.Client(); // make an instance of the Client class as our 'client'
-const { msgCallback } = require('./commands/start');
+const { ifStart } = require('./commands/start');
 
 
 client.once('ready', () => {
@@ -13,4 +13,4 @@ client.once('ready', () => {
 
 client.login(process.env.TOKEN);
 
-client.on('message', msgCallback);
+client.on('message', (message) => ifStart(message, client));
