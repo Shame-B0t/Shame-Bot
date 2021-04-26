@@ -46,6 +46,7 @@ function ifStart(message, client){
       userId: message.author.id,
       username: message.author.username,
       isActive: true,
+      mode,
       startTime: Date.now(),
       endTime: Date.now() + parsedTime,
     
