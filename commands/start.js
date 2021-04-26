@@ -1,7 +1,6 @@
-// the bot configuration functionality
 const { makeNewPrivateChannel } = require('../utils/newChannel');
 const { parseTime } = require('../utils/parseTime');
-// const { ifExit } = require('./stop');
+
 const PREFIX = '--';
 
 const usersArray = [];
@@ -11,7 +10,7 @@ setInterval(() => {
     const user = usersArray[i];
     if(user.endTime < Date.now() || user.isActive === false){
       usersArray.splice(i, 1);
-
+      if(user.isActive) user.originalChannel.send(`<@${user.userId}>TIME IS UP`);
     }
   }
 }, 1000);
@@ -49,13 +48,13 @@ function ifStart(message, client){
       mode,
       startTime: Date.now(),
       endTime: Date.now() + parsedTime,
-    
+      originalChannel: message.channel,
+      userRoles: []
     };
     message.reply(`You are now in ${mode} mode.`);
     message.reply(`you will be restricted for ${parsedTime / 60000} mins`);
 
     usersArray.push(userObj);
-    console.log('when start', usersArray);
    
   }
 
