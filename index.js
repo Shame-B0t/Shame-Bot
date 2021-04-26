@@ -4,6 +4,7 @@ const Discord = require('discord.js');
 const client = new Discord.Client(); // make an instance of the Client class as our 'client'
 const { ifStart } = require('./commands/start');
 const { helpMessage } = require('./commands/help')
+const { ifExit } = require('./commands/stop');
 
 
 client.once('ready', () => {
@@ -14,7 +15,11 @@ client.once('ready', () => {
 
 client.login(process.env.TOKEN);
 
-client.on('message', (message) => { 
-  ifStart(message, client)
+client.on('message', (message) => {
+  ifStart(message, client); //!focus
+  ifExit(message); //!exit
   helpMessage(message)
 });
+
+
+
