@@ -1,7 +1,7 @@
 const { parseTime, timeToMs, msToString } = require('../utils/parseTime');
 
 describe('tests utility functions', () => {
-  it.skip('converts a string formatted as 00:00 into milliseconds', () => {
+  it('converts a string formatted as 00:00 into milliseconds', () => {
     const stringTime1 = '00:05';
     const stringTime2 = '00:15';
     const stringTime3 = '01:05';
@@ -13,7 +13,7 @@ describe('tests utility functions', () => {
     expect(parseTime(stringTime4)).toEqual(36900000);
   });
 
-  it.skip('converts a hours and minutes into milliseconds', () => {
+  it('converts a hours and minutes into milliseconds', () => {
     const hr = 2;
     const min = 15;
     const hr2 = 0;
