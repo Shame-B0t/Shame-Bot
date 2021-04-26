@@ -20,7 +20,7 @@ setInterval(() => {
       if(user.isActive) user.originalChannel.send(`<@${user.userId}>TIME IS UP`);
     }
   }
-  console.log(usersArray.map(user => user.username));
+  // console.log(usersArray.map(user => user.username));
 }, 1000);
 
 async function ifStart(message, client){
@@ -46,7 +46,7 @@ async function ifStart(message, client){
 
     // const parsedTime = parseTime(timeoutLength);
     
-    const parsedTime = 20000;
+    const parsedTime = 10000;
 
     const userObj = {
       userId: message.author.id,
@@ -82,12 +82,8 @@ async function ifStart(message, client){
               await restoreUserRoles(message, userObj.userRoles);
             }, parsedTime);
           });
-
-
-
-
-
         break;
+      
       case 'lockdown': {
         if(isUserOwner(message)) {
           message.reply('Sorry, you can\'t do this.');
@@ -95,6 +91,17 @@ async function ifStart(message, client){
         }
 
         makeNewPrivateChannel(client, message, parsedTime);
+
+        await stripUserRoles(message, userObj.userRoles);
+
+        createRole(message, 'TESTINGTESTING')
+          .then(newRole => {
+            assignNewRole(message, newRole);
+            client.setTimeout(async () => {
+              await deleteRole(message, newRole);
+              await restoreUserRoles(message, userObj.userRoles);
+            }, parsedTime);
+          });
       }
       
         break;
