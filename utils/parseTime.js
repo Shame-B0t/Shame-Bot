@@ -17,15 +17,39 @@ function timeToMs(hrs, mins){
   return hrToMs + minToMs;
 }
 
-function calculateEndTime() {
-  // get milliseconds timestamp for NOW and endtime
-  // convert into minutes/hours "HH hour(s), MM minutes"
-  // If statement for hour vs hours and minute vs minutes (stretch?)
-  // return difference
+function pluralMins(min) {
+  if(min === 1) {
+    return `${min} minute`;
+  } else return `${min} minutes`;
+}
+
+function pluralHours(hour) {
+  if(hour === 1) {
+    return `${hour} hour`;
+  } else return `${hour} hours`;
+}
+
+function msToString(timeInMs) {
+  // convert into minutes/hours "HH hour(s), MM minutes" example: 4500000 ms
+  const timeInHours = timeInMs / 1000 / 60 / 60; // 1.25h
+  const roundedHours = Math.floor(timeInHours); // 1hr
+  const finalHours = pluralHours(roundedHours); // '1 hour'
+
+  const timeInMins = (timeInHours - roundedHours) * 60; //15min
+  const roundedMins = Math.floor(timeInMins);
+  const finalMins = pluralMins(roundedMins);
+
+  if(finalHours === '0 hours') {
+    return finalMins;
+  } else if(finalMins === '0 minutes') {
+    return finalHours;
+  } return `${finalHours}, ${finalMins}`;
 }
 
 module.exports = {
   parseTime,
   timeToMs,
-  calculateEndTime,
+  msToString,
+  pluralMins,
+  pluralHours
 };
