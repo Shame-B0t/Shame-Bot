@@ -46,10 +46,18 @@ function msToString(timeInMs) {
   } return `${finalHours}, ${finalMins}`;
 }
 
+function remainingTime(endTime) {
+  const now = Date.now();
+  const difference = endTime - now;
+
+  return difference;
+}
+
 module.exports = {
   parseTime,
   timeToMs,
   msToString,
   pluralMins,
-  pluralHours
+  pluralHours,
+  remainingTime
 };
