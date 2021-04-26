@@ -17,7 +17,15 @@ function timeToMs(hrs, mins){
   return hrToMs + minToMs;
 }
 
+function calculateEndTime() {
+  // get milliseconds timestamp for NOW and endtime
+  // convert into minutes/hours "HH hour(s), MM minutes"
+  // If statement for hour vs hours and minute vs minutes (stretch?)
+  // return difference
+}
+
 module.exports = {
   parseTime,
   timeToMs,
+  calculateEndTime,
 };
