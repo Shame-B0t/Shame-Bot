@@ -18,10 +18,10 @@ client.once('ready', () => {
 client.login(process.env.TOKEN);
 
 client.on('message', (message) => {
-  ifStart(message, client); //!focus
-  ifExit(message); //!exit
-  ifChallenge(message); 
-  helpMessage(message);
+  ifStart(message, client); //--focus
+  ifExit(message); //--exit
+  ifChallenge(message); //--challenge
+  helpMessage(message); //--help
 });
 
 

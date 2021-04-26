@@ -1,43 +1,63 @@
 const { makeNewPrivateChannel } = require('../utils/newChannel');
+const { createRole } = require('../utils/newRole');
 const { parseTime } = require('../utils/parseTime');
+const { assignNewRole } = require('../utils/updateRoles');
 
 const PREFIX = '--';
 
 const usersArray = [];
 
+// TODO experiment/test this length problem
+
 setInterval(() => {
+  // let now = Date.now() ???
   for(let i = 0; i < usersArray.length; i++){
     const user = usersArray[i];
-    if(user.endTime < Date.now() || user.isActive === false){
+    if(user.endTime < Date.now() || user.isActive === false){ // CONSIDER only incrementing when not splicing to preserve i at the correct index/not skip things
+      // TODO fix this logic so we aren't messing with the array length - filter??? indices will change ?
       usersArray.splice(i, 1);
+
       if(user.isActive) user.originalChannel.send(`<@${user.userId}>TIME IS UP`);
     }
   }
+  console.log(usersArray.map(user => user.username));
 }, 1000);
 
 function ifStart(message, client){
 
   if(message.content.startsWith(PREFIX + 'focus')){
+    // checking to see if user is already tracked/focusing
     for(let i = 0; i < usersArray.length; i++) {
       const user = usersArray[i];
-      if(message.author.id === user.userId) return message.reply('you are already in a productivity mode, enter --exit to end your session');
+      if(message.author.id === user.userId) {
+        message.reply('you are already in a productivity mode, enter --exit to end your session');
+        return;
+      }
     }
+
     const timeRegex = /^([0-9]|[1-9][0-9])([0-9]|[1-9][0-9]):([0-9]|[1-9][0-9])([0-9]|[1-9][0-9])$/;
 
+    // pull mode and time args off message
     const [mode, timeoutLength] = message.content.split(' ').slice(1);
 
+    if(mode !== 'shame' && mode !== 'isolation' && mode !== 'lockdown') return message.reply('Enter LALALALA: shame, isolation, or lockdown in this format, ex. "--focus isolation 01:00"');
+    
     if(!timeRegex.test(timeoutLength)) return message.reply(`enter a valid time format hh:mm in your request ex. "--focus ${mode} 01:00"`);
 
     const parsedTime = parseTime(timeoutLength);
-      
+    
+    // assign mode based on user choice
     switch(mode){
       case 'shame':
+        // TODO publiclyShame.js
         break;
-      case 'isolation': makeNewPrivateChannel(client, message);
+      case 'isolation': 
+        makeNewPrivateChannel(client, message, parsedTime);
+
         break;
-      case 'lockdown': makeNewPrivateChannel(client, message);
+      case 'lockdown': makeNewPrivateChannel(client, message, parsedTime);
         break;
-      default: message.reply('Enter a valid status: shame, isolation, or lockdown is this format, ex. "--focus isolation 01:00"'); 
+      default: message.reply('Enter a valid status: shame, isolation, or lockdown in this format, ex. "--focus isolation 01:00"'); 
         return;
     }
 

@@ -2,6 +2,8 @@
 const { msToString, remainingTime } = require('./parseTime');
 const { usersArray } = require('../commands/start');
 
+
+// consider passing usersArray in as arg to function
 function autoReply(mentionMessage) {
   //check all mentioned users to see if they are on list of focused users
   const focusedUser = usersArray.map(
