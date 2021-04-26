@@ -11,7 +11,7 @@ setInterval(() => {
     const user = usersArray[i];
     if(user.endTime < Date.now() || user.isActive === false){
       usersArray.splice(i, 1);
-
+      if(user.isActive) user.originalChannel.send(`<@${user.userId}>TIME IS UP`);
     }
   }
 }, 1000);
@@ -48,8 +48,9 @@ function ifStart(message, client){
       isActive: true,
       mode,
       startTime: Date.now(),
-      endTime: Date.now() + parsedTime,
-    
+      endTime: Date.now() + 5000,
+      originalChannel: message.channel,
+      userRoles: []
     };
     message.reply(`You are now in ${mode} mode.`);
     message.reply(`you will be restricted for ${parsedTime / 60000} mins`);
