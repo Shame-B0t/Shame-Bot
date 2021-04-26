@@ -9,13 +9,11 @@ function autoReply(mentionMessage) {
     // mentionMessage.mentions.users === whatever naming convention is
   );
 
-  if(mentionMessage.mentions.users.has(focusedUser)) {
-    if(!mentionMessage.author.bot) {
-      const endTime = remainingTime(focusedUser.endTime);
-      const timeLeft = msToString(endTime);
-      // send autoreply that they are focusing
-      mentionMessage.reply(`Sorry, this user is in focus mode currently. Their focus time ends in ${timeLeft}`);
-    }
+  if(mentionMessage.mentions.users.has(focusedUser) && !mentionMessage.author.bot) {
+    const endTime = remainingTime(focusedUser.endTime);
+    const timeLeft = msToString(endTime);
+    // send autoreply that they are focusing
+    mentionMessage.reply(`Sorry, this user is in focus mode currently. Their focus time ends in ${timeLeft}`);
   }
 }
   

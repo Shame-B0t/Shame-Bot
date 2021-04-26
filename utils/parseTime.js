@@ -17,27 +17,20 @@ function timeToMs(hrs, mins){
   return hrToMs + minToMs;
 }
 
-function pluralMins(min) {
-  if(min === 1) {
-    return `${min} minute`;
-  } else return `${min} minutes`;
-}
-
-function pluralHours(hour) {
-  if(hour === 1) {
-    return `${hour} hour`;
-  } else return `${hour} hours`;
+function pluralize(number, unitOfTime) {
+  if(number === 1) return `${number} ${unitOfTime}`;
+  else return `${number} ${unitOfTime}s`;
 }
 
 function msToString(timeInMs) {
   // convert into minutes/hours "HH hour(s), MM minutes" example: 4500000 ms
   const timeInHours = timeInMs / 1000 / 60 / 60; // 1.25h
   const roundedHours = Math.floor(timeInHours); // 1hr
-  const finalHours = pluralHours(roundedHours); // '1 hour'
+  const finalHours = pluralize(roundedHours, 'hour'); // '1 hour'
 
   const timeInMins = (timeInHours - roundedHours) * 60; //15min
   const roundedMins = Math.floor(timeInMins);
-  const finalMins = pluralMins(roundedMins);
+  const finalMins = pluralize(roundedMins, 'minute');
 
   if(finalHours === '0 hours') {
     return finalMins;
@@ -57,7 +50,6 @@ module.exports = {
   parseTime,
   timeToMs,
   msToString,
-  pluralMins,
-  pluralHours,
+  pluralize,
   remainingTime
 };
