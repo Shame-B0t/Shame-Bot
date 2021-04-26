@@ -20,6 +20,3 @@ client.on('message', (message) => {
   ifExit(message); //!exit
   helpMessage(message);
 });
-
-
-
