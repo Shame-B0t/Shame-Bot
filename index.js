@@ -7,12 +7,11 @@ const { ifStart } = require('./commands/start');
 const { helpMessage } = require('./commands/help');
 const { ifExit } = require('./commands/stop');
 const { autoReply } = require('./utils/autoReply');
+const { overwriteChannelPerms } = require('./utils/overwriteChannelPerms');
 
 
 client.once('ready', () => {
-  console.log('Good to go, boss!'); 
-  // check for and make channel if needed
-  // check for and make webhook if needed
+  console.log('Good to go, boss!');
 });
 
 client.login(process.env.TOKEN);
@@ -23,4 +22,6 @@ client.on('message', (message) => {
   ifExit(message); //--exit
   ifChallenge(message); //--challenge
   helpMessage(message); //--help
+
+  if(message.content.startsWith('--channels')) overwriteChannelPerms(message);
 });
