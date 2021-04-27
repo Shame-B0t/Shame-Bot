@@ -2,7 +2,7 @@ const { botReplies } = require('../data/shameReplies');
 const { makeNewPrivateChannel } = require('../utils/newChannel');
 const { overwriteChannelPerms } = require('../utils/overwriteChannelPerms');
 const { isUserOwner, getUserRoles } = require('../utils/updateRoles');
-const { publiclyShame } = require('../utils/publiclyShame');
+// const { publiclyShame } = require('../utils/publiclyShame');
 
 
 const PREFIX = '--';
@@ -68,8 +68,8 @@ async function ifStart(message, client){
       case MODE_1:
         // handle listening for new message differently?
         // TODO make sure that publiclyShame has correct access to the usersArray, right now the user doens't get placed there until after the switch statement
-        
-        publiclyShame(message);
+        message.reply('DW placeholder confirmation that shame was selected');
+        // publiclyShame(message);
         break;
 
       case MODE_2:
