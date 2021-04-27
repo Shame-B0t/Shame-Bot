@@ -38,4 +38,11 @@ describe('tests utility functions', () => {
     expect(msToString(4500000)).toEqual(stringTime3);
     expect(msToString(36060000)).toEqual(stringTime4);
   });
+
+  it('loops through responses', () => {
+
+  });   
+
+
+  // create small response array and loop through func a set amount or times OR until each response gets hit at least 5 times?
 });
