@@ -7,6 +7,8 @@ const { helpMessage } = require('./commands/help');
 const { ifExit } = require('./commands/stop');
 const { autoReply } = require('./utils/autoReply');
 const { publiclyShame } = require('./utils/publiclyShame');
+const { timeCheck } = require('./commands/time');
+
 // const { overwriteChannelPerms } = require('./utils/overwriteChannelPerms');
 
 client.once('ready', () => {
@@ -26,5 +28,6 @@ client.on('message', (message) => {
   publiclyShame(message); // listen for shamed user message
   ifExit(message); //--exit
   ifChallenge(message); //--challenge
+  timeCheck(message); //--time
   helpMessage(message); //--help
 });

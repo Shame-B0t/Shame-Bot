@@ -71,7 +71,6 @@ async function ifStart(message, client){
     // assign mode based on user choice
     switch(mode){
       case MODE_1:
-
         changeNickname(message, userObj);
         break;
         
