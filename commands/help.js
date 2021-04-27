@@ -3,7 +3,7 @@ const Discord = require('discord.js');
 
 function helpMessage(message) {
 
-  if(message.author.bot || !message.content === '--help' || !message.content === '--HELP') return;
+  if(message.author.bot || !message.content.toLowerCase() === '--help') return;
 
   const helpMessageEmbed = new Discord.MessageEmbed()
     .setColor('#38000c')
