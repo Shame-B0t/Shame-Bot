@@ -74,8 +74,11 @@ async function ifStart(message, client){
     switch(mode){
       case MODE_1:
         // handle listening for new message differently?
+
         // publiclyShame(message);
         changeNickname(message, userObj);
+        // TODO make sure that publiclyShame has correct access to the usersArray, right now the user doens't get placed there until after the switch statement
+
         break;
 
       case MODE_2:
