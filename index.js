@@ -7,6 +7,7 @@ const { ifStart } = require('./commands/start');
 const { helpMessage } = require('./commands/help');
 const { ifExit } = require('./commands/stop');
 const { autoReply } = require('./utils/autoReply');
+const { overwriteChannelPerms } = require('./utils/overwriteChannelPerms');
 
 
 client.once('ready', () => {
@@ -21,4 +22,8 @@ client.on('message', (message) => {
   ifExit(message); //--exit
   ifChallenge(message); //--challenge
   helpMessage(message); //--help
+});
+
+client.on('message', async message => {
+  await overwriteChannelPerms(message);
 });
