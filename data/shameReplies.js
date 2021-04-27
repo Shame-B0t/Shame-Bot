@@ -71,6 +71,10 @@ const botReplies = {
 
   challengeIncomplete(response, challengeParam){
     return `You only typed ${response.length} out of the ${challengeParam} word requirement. Resubmit your answer using --challenge with ${challengeParam - response.length} more words`;
+  },
+
+  tooPowerful(){
+    return 'Nope, sorry, you\'re too powerful for me. Try `shame` mode, or ask someone with administrative priveliges to move my role up in the hierarchy';
   }
 };
 

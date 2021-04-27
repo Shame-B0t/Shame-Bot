@@ -1,5 +1,6 @@
 const { botReplies } = require('../data/shameReplies');
 const { changeNickname, restoreNickname } = require('../stretch/changeNickname');
+const { isBotRoleHigher } = require('../utils/checkRoleStatus');
 const { makeNewPrivateChannel } = require('../utils/newChannel');
 const { overwriteChannelPerms } = require('../utils/overwriteChannelPerms');
 const { isUserOwner, getUserRoles } = require('../utils/updateRoles');
@@ -10,6 +11,8 @@ const MODE_2 = 'isolation';
 const MODE_3 = 'lockdown';
 
 const usersArray = [];
+
+// TODO consider nested setTimeouts, safer option than this 1s interval check
 
 setInterval(() => {
   // let now = Date.now() ???
@@ -22,7 +25,7 @@ setInterval(() => {
 
       if(user.isActive && !user.member.guild.owner){
         user.originalChannel.send(botReplies.timerEnded(user.userId));
-        restoreNickname(user, user.member);
+        if(isBotRoleHigher({ member: user.member })) restoreNickname(user, user.member);
       }
       if(user.isActive && user.member.guild.owner)user.originalChannel.send(botReplies.timerEnded(user.userId)); 
     }
@@ -71,7 +74,9 @@ async function ifStart(message, client){
     // assign mode based on user choice
     switch(mode){
       case MODE_1:
-        changeNickname(message, userObj);
+
+        if(isBotRoleHigher(message)) changeNickname(message, userObj);
+
         break;
         
       case MODE_2:
@@ -79,9 +84,19 @@ async function ifStart(message, client){
           message.reply(botReplies.userIsOwner());
           return;
         }
-        changeNickname(message, userObj);
-        overwriteChannelPerms(message);
-        makeNewPrivateChannel(client, message, parsedTime);
+       
+        else if(!isBotRoleHigher(message)) {
+          message.reply(botReplies.tooPowerful());
+          return;
+        }
+
+        else {
+          console.log('permissions cleared, continuing function');
+          changeNickname(message, userObj);
+  
+          overwriteChannelPerms(message);
+          makeNewPrivateChannel(client, message, parsedTime);
+        }
         break;
       
       case MODE_3: {
@@ -89,7 +104,14 @@ async function ifStart(message, client){
           message.reply(botReplies.userIsOwner());
           return;
         }
+
+        else if(!isBotRoleHigher(message)) {
+          message.reply(botReplies.tooPowerful());
+          return;
+        }
+        console.log('permissions cleared, continuing function');
         changeNickname(message, userObj);
+
         overwriteChannelPerms(message);
         makeNewPrivateChannel(client, message, parsedTime);
       }
@@ -98,7 +120,6 @@ async function ifStart(message, client){
       default: message.reply(botReplies.invalidStatus()); 
         return;
     }
-
     
     message.reply(botReplies.confirmMode(mode));
     message.reply(botReplies.confirmTime(parsedTime));
