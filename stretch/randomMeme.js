@@ -10,11 +10,6 @@ function randomMeme(message) {
 
   if(message.author.bot || !message.content.toLowerCase() === '--meme') return;
 
-  //   const memeEmbed = new Discord.MessageEmbed()
-  //     .setTitle('Here is your secret meme')
-  //     .setAuthor('Shame-b0t')
-  //     .setImage(String(images[index]));
-
   const i = randomMemeIndex(images);
 
   if(message.content.toLowerCase().includes('--meme')) message.channel.send(images[i]);
