@@ -1,5 +1,6 @@
 // strip off and reattach the user's roles
 
+const { botReplies } = require('../data/shameReplies');
 const { createRole, deleteRole } = require('./newRole');
 
 const getUserRoles = ({ member }) => member.roles.cache.filter(role => role.name !== '@everyone');
@@ -23,7 +24,7 @@ const restoreUserRoles = async ({ member }, userRoles) => {
 // this is a test of the role update flow, currently running into permissions issues due to the hierarchy of roles (where the bot has needed permissions but has a low role in the hierarchy)
 const testRoleUpdates = async (message, client) => {
   if(isUserOwner(message)) {
-    message.reply('Sorry, you can\'t do this.');
+    message.reply(botReplies.userIsOwner());
     return;
   }
   
