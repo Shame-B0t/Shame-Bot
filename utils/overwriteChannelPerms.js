@@ -32,8 +32,6 @@ const removeChannelOverwrites = (channels, author, member, adminRoles, timeout) 
 const overwriteChannelPerms = ({ guild, author, member }) => {
   const { channels } = guild;
   const originalChannels = channels.cache;
-
-  // TODO restoring the admin roles seems to have async effects that need to be accounted for, probably by awaiting the overwrite functions (but all attempts so far have failed) - the view is not restricted if I close this out with the restoration of the admin role(s), but if I omit that line the role is stripped and the view is restricted as intended
   
   if(isUserAdmin(member)) {
     const adminRoles = [];
@@ -47,14 +45,14 @@ const overwriteChannelPerms = ({ guild, author, member }) => {
     
     makeChannelOverwrites(originalChannels, author);
 
-    removeChannelOverwrites(originalChannels, author, member, adminRoles, 5000);
+    removeChannelOverwrites(originalChannels, author, member, adminRoles, 10000);
 
     
   }
   else {
     // non-admin block works as intended
     makeChannelOverwrites(originalChannels, author);
-    removeChannelOverwrites(originalChannels, author, member, [], 5000);
+    removeChannelOverwrites(originalChannels, author, member, [], 10000);
   }
 };
 

@@ -1,6 +1,7 @@
 const { botReplies } = require('../data/shameReplies');
 const { makeNewPrivateChannel } = require('../utils/newChannel');
 const { createRole, deleteRole } = require('../utils/newRole');
+const { overwriteChannelPerms } = require('../utils/overwriteChannelPerms');
 const { assignNewRole, isUserOwner, getUserRoles, stripUserRoles, restoreUserRoles } = require('../utils/updateRoles');
 
 const PREFIX = '--';
@@ -66,24 +67,14 @@ async function ifStart(message, client){
       case MODE_1:
         // TODO publiclyShame.js
         break;
+        
       case MODE_2:
         if(isUserOwner(message)) {
           message.reply(botReplies.userIsOwner());
           return;
         }
-
+        overwriteChannelPerms(message);
         makeNewPrivateChannel(client, message, parsedTime);
-
-        await stripUserRoles(message, userObj.userRoles);
-
-        createRole(message, botReplies.createRoleString())
-          .then(newRole => {
-            assignNewRole(message, newRole);
-            client.setTimeout(async () => {
-              await deleteRole(message, newRole);
-              await restoreUserRoles(message, userObj.userRoles);
-            }, parsedTime);
-          });
         break;
       
       case MODE_3: {
@@ -91,22 +82,11 @@ async function ifStart(message, client){
           message.reply(botReplies.userIsOwner());
           return;
         }
-
+        overwriteChannelPerms(message);
         makeNewPrivateChannel(client, message, parsedTime);
-
-        await stripUserRoles(message, userObj.userRoles);
-
-        createRole(message, botReplies.createRoleString())
-          .then(newRole => {
-            assignNewRole(message, newRole);
-            client.setTimeout(async () => {
-              await deleteRole(message, newRole);
-              await restoreUserRoles(message, userObj.userRoles);
-            }, parsedTime);
-          });
       }
-      
         break;
+
       default: message.reply(botReplies.invalidStatus()); 
         return;
     }
