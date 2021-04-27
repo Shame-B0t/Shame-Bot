@@ -12,7 +12,14 @@ const { autoReply } = require('./utils/autoReply');
 
 client.once('ready', () => {
   console.log('Good to go, boss!');
+
+  client.user.setActivity('over you | type --help', { type: 'WATCHING' })
+    .then(presence => console.log(`Activity set to ${presence.activities[0].name}`))
+    .catch(console.error);
+
 });
+
+
 
 client.login(process.env.TOKEN);
 
