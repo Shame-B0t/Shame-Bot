@@ -6,7 +6,8 @@ const shameRepliesArray = [
   'according to my calculations, you are currently in focus mode and shouldn\'t be posting any comments!!',
   'is posting comments when they SHOULD NOT BE',
   'back to work, buddy',
-  ''
+  '"always remember, your focus determines your reality" - Yoda',
+  'I\'m telling mum you\'re commenting where you shouldn\'t be'
 ];
 
 const botReplies = {
