@@ -1,6 +1,7 @@
 const { botReplies } = require('../data/shameReplies');
 const { makeNewPrivateChannel } = require('../utils/newChannel');
 const { createRole, deleteRole } = require('../utils/newRole');
+const { publiclyShame } = require('../utils/publiclyShame');
 const { assignNewRole, isUserOwner, getUserRoles, stripUserRoles, restoreUserRoles } = require('../utils/updateRoles');
 
 const PREFIX = '--';
@@ -64,8 +65,10 @@ async function ifStart(message, client){
     // assign mode based on user choice
     switch(mode){
       case MODE_1:
-        // TODO publiclyShame.js
+        // handle listening for new message differently?
+        publiclyShame(message);
         break;
+        
       case MODE_2:
         if(isUserOwner(message)) {
           message.reply(botReplies.userIsOwner());
