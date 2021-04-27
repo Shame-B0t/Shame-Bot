@@ -2,9 +2,9 @@
 // const { usersArray } = require('../commands/start');
 // const { shameRepliesArray } = require('../data/shameReplies');
 
-// function randomArrayIndex(array) {
-//   return Math.floor(Math.random() * array.length);
-// }
+function randomArrayIndex(array) {
+  return Math.floor(Math.random() * array.length);
+}
 
 // function publiclyShame(message) {
 //   const focusedUser = usersArray.find(activeUser =>
@@ -20,4 +20,4 @@
 //   message.reply(shameRepliesArray[i]);
 // }
 
-// module.exports = { publiclyShame, randomArrayIndex };
+module.exports = { randomArrayIndex };
