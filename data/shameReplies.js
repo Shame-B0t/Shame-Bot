@@ -1,8 +1,9 @@
-// a place to create a large object full of bot replies
-
-[
+const shameRepliesArray = [
   'shouldn"t you be focusing?',
   'tsk tsk. Back to focus time!',
+  'excuse me bruv, aren\'t you supposed to be focusing!!',
+  'Oy! Shouldn\'t you be focusin mate?',
+  'back to work, buddy',
   ''
 ];
 
@@ -26,6 +27,10 @@ const botReplies = {
 
   userIsOwner(){
     return 'Sorry, server owners cannot use the bot in isolation or lockdown modes.';
+  },
+
+  changeOwnerNickname(){
+    return 'Sorry, Shame-b02 cannot change a server owner\'s nickname, but other functionality in shame mode should work as expected.';
   },
 
   createRoleString(){
@@ -63,10 +68,9 @@ const botReplies = {
   challengeIncomplete(response, challengeParam){
     return `You only typed ${response.length} out of the ${challengeParam} word requirement. Resubmit your answer using --challenge with ${challengeParam - response.length} more words`;
   }
-
-
 };
 
 module.exports = {
   botReplies,
+  shameRepliesArray
 };

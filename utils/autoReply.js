@@ -9,8 +9,6 @@ function autoReply(message) {
   if(!message.mentions.users || message.author.bot) return;
   
   //check all mentioned users to see if they are on list of focused users
-
-  
   for(const mentionedUser of message.mentions.users) {
     
     const focusedUser = usersArray.find(activeUser =>
@@ -25,12 +23,6 @@ function autoReply(message) {
       message.reply(botReplies.autoReplyToSender(timeLeft));
     }
   }
-  // if(message.mentions.users.has(focusedUser)) {
-  //   const endTime = remainingTime(focusedUser.endTime);
-  //   const timeLeft = msToString(endTime);
-  //   // send autoreply that they are focusing
-  //   message.reply(`Sorry, this user is in focus mode currently. Their focus time ends in ${timeLeft}`);
-  // }
 }
   
 module.exports = { autoReply };

@@ -1,8 +1,10 @@
 const { botReplies } = require('../data/shameReplies');
-const { changeNickname } = require('../stretch/changeNickname');
+const { changeNickname, restoreNickname } = require('../stretch/changeNickname');
 const { makeNewPrivateChannel } = require('../utils/newChannel');
-const { createRole, deleteRole } = require('../utils/newRole');
-const { assignNewRole, isUserOwner, getUserRoles, stripUserRoles, restoreUserRoles } = require('../utils/updateRoles');
+const { overwriteChannelPerms } = require('../utils/overwriteChannelPerms');
+const { isUserOwner, getUserRoles } = require('../utils/updateRoles');
+// const { publiclyShame } = require('../utils/publiclyShame');
+
 
 const PREFIX = '--';
 const MODE_1 = 'shame';
@@ -20,7 +22,11 @@ setInterval(() => {
       usersArray.splice(i, 1);
       i--;
 
-      if(user.isActive) user.originalChannel.send(botReplies.timerEnded(user.userId));
+      if(user.isActive && !user.member.guild.owner){
+        user.originalChannel.send(botReplies.timerEnded(user.userId));
+        restoreNickname(user, user.member);
+      }
+      if(user.isActive && user.member.guild.owner)user.originalChannel.send(botReplies.timerEnded(user.userId)); 
     }
   }
   // console.log(usersArray.map(user => user.username));
@@ -59,32 +65,27 @@ async function ifStart(message, client){
       startTime: Date.now(),
       endTime: Date.now() + parsedTime,
       originalChannel: message.channel,
-      userRoles: getUserRoles(message)
+      userRoles: getUserRoles(message),
+      nickname: message.member.nickname,
+      member: message.member,
     };
 
     // assign mode based on user choice
     switch(mode){
-      case MODE_1: changeNickname(message);
-        // TODO publiclyShame.js
+      case MODE_1:
+        // handle listening for new message differently?
+        // publiclyShame(message);
+        changeNickname(message, userObj);
         break;
+
       case MODE_2:
         if(isUserOwner(message)) {
           message.reply(botReplies.userIsOwner());
           return;
         }
-
+        changeNickname(message, userObj);
+        overwriteChannelPerms(message);
         makeNewPrivateChannel(client, message, parsedTime);
-
-        await stripUserRoles(message, userObj.userRoles);
-
-        createRole(message, botReplies.createRoleString())
-          .then(newRole => {
-            assignNewRole(message, newRole);
-            client.setTimeout(async () => {
-              await deleteRole(message, newRole);
-              await restoreUserRoles(message, userObj.userRoles);
-            }, parsedTime);
-          });
         break;
       
       case MODE_3: {
@@ -92,22 +93,12 @@ async function ifStart(message, client){
           message.reply(botReplies.userIsOwner());
           return;
         }
-
+        changeNickname(message, userObj);
+        overwriteChannelPerms(message);
         makeNewPrivateChannel(client, message, parsedTime);
-
-        await stripUserRoles(message, userObj.userRoles);
-
-        createRole(message, botReplies.createRoleString())
-          .then(newRole => {
-            assignNewRole(message, newRole);
-            client.setTimeout(async () => {
-              await deleteRole(message, newRole);
-              await restoreUserRoles(message, userObj.userRoles);
-            }, parsedTime);
-          });
       }
-      
         break;
+
       default: message.reply(botReplies.invalidStatus()); 
         return;
     }
