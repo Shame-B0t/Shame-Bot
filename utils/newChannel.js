@@ -1,3 +1,5 @@
+const { botReplies } = require('../data/shameReplies');
+
 const deleteChannel = channel => {
   channel.delete()
     .then(result => console.log(`Channel ${result.id} - ${result.name} DELETED`))
@@ -35,7 +37,7 @@ const makeNewPrivateChannel = (client, { guild, author }, timeout) => {
     }]
   })
     .then(newChannel => {
-      newChannel.send(`Welcome, <@${author.id}>`);
+      newChannel.send(botReplies.welcomeToChannel(author.id));
       setTimeout(() => deleteChannel(newChannel), timeout);
     })
     .catch(console.error);

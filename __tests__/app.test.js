@@ -45,4 +45,60 @@ describe('tests utility functions', () => {
 
 
   // create small response array and loop through func a set amount or times OR until each response gets hit at least 5 times?
+  it('mutates array in place while maitaining integrity of loop indicies', () => {
+    const arr = [1, 3, 3, 4, 5, 5, 7, 8, 9, 9];
+    for(let i = 0; i < arr.length; i++) {
+      const num = arr[i];
+      if(num % 2 === 0){
+        arr.splice(i, 1);
+        i--;
+      }
+    }
+    expect(arr).toEqual([1, 3, 3, 5, 5, 7, 9, 9]);
+  });
+
+  it('mutates array in place while maitaining integrity of loop indicies', () => {
+    const arr = [2, 2, 4, 4, 5, 5, 6, 8, 8, 9];
+    for(let i = 0; i < arr.length; i++) {
+      const num = arr[i];
+      if(num % 2 === 0){
+        arr.splice(i, 1);
+        i--;
+      }
+    }
+    expect(arr).toEqual([5, 5, 9]);
+  });
+  it('mutates array in place while maitaining integrity of loop indicies', () => {
+    const arr = [2, 2, 4, 4, 6, 4, 6, 8, 8, 10];
+    for(let i = 0; i < arr.length; i++) {
+      const num = arr[i];
+      if(num % 2 === 0){
+        arr.splice(i, 1);
+        i--;
+      }
+    }
+    expect(arr).toEqual([]);
+  });
+  it('mutates array in place while maitaining integrity of loop indicies', () => {
+    const arr = [1, 3, 3, 5, 5, 5, 7, 8, 9, 9];
+    for(let i = 0; i < arr.length; i++) {
+      const num = arr[i];
+      if(num % 2 === 0){
+        arr.splice(i, 1);
+        i--;
+      }
+    }
+    expect(arr).toEqual([1, 3, 3, 5, 5, 5, 7, 9, 9]);
+  });
+  it('mutates array in place while maitaining integrity of loop indicies', () => {
+    const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    for(let i = 0; i < arr.length; i++) {
+      const num = arr[i];
+      if(num % 2 === 0){
+        arr.splice(i, 1);
+        i--;
+      }
+    }
+    expect(arr).toEqual([1, 3, 5, 7, 9]);
+  });
 });
