@@ -10,10 +10,15 @@ const { autoReply } = require('./utils/autoReply');
 
 
 client.once('ready', () => {
-  console.log('Good to go, boss!'); 
+  console.log('Good to go, boss!');
   // check for and make channel if needed
   // check for and make webhook if needed
+  client.user.setActivity('over you | type --help', { type: 'WATCHING' })
+    .then(presence => console.log(`Activity set to ${presence.activities[0].name}`))
+    .catch(console.error);
 });
+
+
 
 client.login(process.env.TOKEN);
 
