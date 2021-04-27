@@ -1,5 +1,4 @@
 const { parseTime, timeToMs, msToString } = require('../utils/parseTime');
-const { publiclyShame } = require('../utils/publiclyShame');
 
 describe('tests utility functions', () => {
   it('converts a string formatted as 00:00 into milliseconds', () => {
