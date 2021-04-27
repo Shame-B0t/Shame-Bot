@@ -10,9 +10,9 @@ function publiclyShame(message) {
   // if message.author = focusedUser 
   if(message.author !== focusedUser || message.author.bot) return;
   
-  // message.reply message.content comes from shameReplies.js
+  // replies to message with a random response from shameReplies.js
   const i = responseNumber.length - 1;
-  const responseNumber = Math.random(i);
+  const responseNumber = Math.floor(Math.random() * i);
   
   message.reply(shameRepliesArray[responseNumber]);
 }
