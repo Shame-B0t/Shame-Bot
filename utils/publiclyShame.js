@@ -7,17 +7,24 @@ function randomArrayIndex(array) {
 }
 
 function publiclyShame(message) {
+  if(message.author.bot || message.content.startsWith('--')) return;
+  
   const focusedUser = usersArray.find(activeUser =>
     activeUser.userId === message.author.id
   );
-        
-  // if message.author = focusedUser 
-  if(message.author !== focusedUser || message.author.bot) return;
   
-  // replies to message with a random response from shameReplies.js
-  const i = randomArrayIndex(shameRepliesArray);
+  if(!focusedUser) return;
+   
+  // check if user is in usersArray && user.mode === MODE_1
+  if(focusedUser && focusedUser.mode === 'shame') {
+    // replies to message with a random response from shameReplies.js
+    const i = randomArrayIndex(shameRepliesArray);
   
-  message.reply(shameRepliesArray[i]);
+    message.reply(shameRepliesArray[i]);
+  }
 }
 
-module.exports = { publiclyShame, randomArrayIndex };
+module.exports = { 
+  publiclyShame, 
+  randomArrayIndex 
+};

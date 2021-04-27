@@ -1,15 +1,7 @@
 const { botReplies } = require('../data/shameReplies');
 const { makeNewPrivateChannel } = require('../utils/newChannel');
-<<<<<<< HEAD
-const { createRole, deleteRole } = require('../utils/newRole');
-const { publiclyShame } = require('../utils/publiclyShame');
-const { assignNewRole, isUserOwner, getUserRoles, stripUserRoles, restoreUserRoles } = require('../utils/updateRoles');
-=======
 const { overwriteChannelPerms } = require('../utils/overwriteChannelPerms');
 const { isUserOwner, getUserRoles } = require('../utils/updateRoles');
-const { publiclyShame } = require('../utils/publiclyShame');
-
->>>>>>> eb3baaf5883018e971479e84d778278bef6290bc
 
 const PREFIX = '--';
 const MODE_1 = 'shame';
@@ -56,7 +48,7 @@ async function ifStart(message, client){
 
     // const parsedTime = parseTime(timeoutLength);
     
-    const parsedTime = 10000;
+    const parsedTime = 20000;
 
     const userObj = {
       userId: message.author.id,
@@ -72,8 +64,6 @@ async function ifStart(message, client){
     // assign mode based on user choice
     switch(mode){
       case MODE_1:
-        // handle listening for new message differently?
-        publiclyShame(message);
         break;
         
       case MODE_2:
