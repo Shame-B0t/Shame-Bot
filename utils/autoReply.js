@@ -1,6 +1,7 @@
 // If any user mentions a user who is focusing, they will get an auto-reply that lets the non-focused user know that the focused user is in focus mode and what time focus mode will end.
 const { msToString, remainingTime } = require('./parseTime');
 const { usersArray } = require('../commands/start');
+const { botReplies } = require('../data/shameReplies');
 
 
 // consider passing usersArray in as arg to function
@@ -8,7 +9,6 @@ function autoReply(message) {
   if(!message.mentions.users || message.author.bot) return;
   
   //check all mentioned users to see if they are on list of focused users
-  console.log('FROM ARRAY', usersArray[0].userId);
 
   
   for(const mentionedUser of message.mentions.users) {
@@ -17,16 +17,12 @@ function autoReply(message) {
       activeUser.userId === mentionedUser[1].id
     );
     
-    console.log('MENTION ID', mentionedUser[0]);
-    console.log('MENTION', mentionedUser[1]);
-    console.log('FOCUSED', focusedUser);
-    
     if(focusedUser) {
       const endTime = remainingTime(focusedUser.endTime);
       const timeLeft = msToString(endTime);
 
       // send autoreply that they are focusing
-      message.reply(`Sorry, this user is in focus mode currently. Their focus time ends in ${timeLeft}`);
+      message.reply(botReplies.autoReplyToSender(timeLeft));
     }
   }
   // if(message.mentions.users.has(focusedUser)) {

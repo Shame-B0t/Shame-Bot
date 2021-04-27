@@ -1,8 +1,12 @@
+const { botReplies } = require('../data/shameReplies');
 const { makeNewPrivateChannel } = require('../utils/newChannel');
 const { createRole, deleteRole } = require('../utils/newRole');
 const { assignNewRole, isUserOwner, getUserRoles, stripUserRoles, restoreUserRoles } = require('../utils/updateRoles');
 
 const PREFIX = '--';
+const MODE_1 = 'shame';
+const MODE_2 = 'isolation';
+const MODE_3 = 'lockdown';
 
 const usersArray = [];
 
@@ -17,7 +21,7 @@ setInterval(() => {
       // TODO fix this logic so we aren't messing with the array length - filter??? indices will change ?
       usersArray.splice(i, 1);
 
-      if(user.isActive) user.originalChannel.send(`<@${user.userId}>TIME IS UP`);
+      if(user.isActive) user.originalChannel.send(botReplies.timerEnded(user.id));
     }
   }
   // console.log(usersArray.map(user => user.username));
@@ -30,7 +34,7 @@ async function ifStart(message, client){
     for(let i = 0; i < usersArray.length; i++) {
       const user = usersArray[i];
       if(message.author.id === user.userId) {
-        message.reply('you are already in a productivity mode, enter --exit to end your session');
+        message.reply(botReplies.alreadyInAMode());
         return;
       }
     }
@@ -40,13 +44,13 @@ async function ifStart(message, client){
     // pull mode and time args off message
     const [mode, timeoutLength] = message.content.split(' ').slice(1);
 
-    if(mode !== 'shame' && mode !== 'isolation' && mode !== 'lockdown') return message.reply('Enter LALALALA: shame, isolation, or lockdown in this format, ex. "--focus isolation 01:00"');
+    if(mode !== MODE_1 && mode !== MODE_2 && mode !== MODE_3) return message.reply(botReplies.invalidStatus());
     
-    if(!timeRegex.test(timeoutLength)) return message.reply(`enter a valid time format hh:mm in your request ex. "--focus ${mode} 01:00"`);
+    if(!timeRegex.test(timeoutLength)) return message.reply(botReplies.invalidTime(mode));
 
     // const parsedTime = parseTime(timeoutLength);
     
-    const parsedTime = 15000;
+    const parsedTime = 45000;
 
     const userObj = {
       userId: message.author.id,
@@ -61,12 +65,12 @@ async function ifStart(message, client){
 
     // assign mode based on user choice
     switch(mode){
-      case 'shame':
+      case MODE_1:
         // TODO publiclyShame.js
         break;
-      case 'isolation':
+      case MODE_2:
         if(isUserOwner(message)) {
-          message.reply('Sorry, you can\'t do this.');
+          message.reply(botReplies.userIsOwner());
           return;
         }
 
@@ -74,7 +78,7 @@ async function ifStart(message, client){
 
         await stripUserRoles(message, userObj.userRoles);
 
-        createRole(message, 'TESTINGTESTING')
+        createRole(message, botReplies.createRoleString())
           .then(newRole => {
             assignNewRole(message, newRole);
             client.setTimeout(async () => {
@@ -84,9 +88,9 @@ async function ifStart(message, client){
           });
         break;
       
-      case 'lockdown': {
+      case MODE_3: {
         if(isUserOwner(message)) {
-          message.reply('Sorry, you can\'t do this.');
+          message.reply(botReplies.userIsOwner());
           return;
         }
 
@@ -94,7 +98,7 @@ async function ifStart(message, client){
 
         await stripUserRoles(message, userObj.userRoles);
 
-        createRole(message, 'TESTINGTESTING')
+        createRole(message, botReplies.createRoleString())
           .then(newRole => {
             assignNewRole(message, newRole);
             client.setTimeout(async () => {
@@ -105,13 +109,13 @@ async function ifStart(message, client){
       }
       
         break;
-      default: message.reply('Enter a valid status: shame, isolation, or lockdown in this format, ex. "--focus isolation 01:00"'); 
+      default: message.reply(botReplies.invalidStatus()); 
         return;
     }
 
     
-    message.reply(`You are now in ${mode} mode.`);
-    message.reply(`you will be restricted for ${parsedTime / 60000} mins`);
+    message.reply(botReplies.confirmMode(mode));
+    message.reply(botReplies.confirmTime(parsedTime));
 
     usersArray.push(userObj);
    
