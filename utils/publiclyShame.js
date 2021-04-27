@@ -11,7 +11,7 @@ function publiclyShame(message) {
   if(message.author !== focusedUser || message.author.bot) return;
   
   // replies to message with a random response from shameReplies.js
-  const i = responseNumber.length - 1;
+  const i = shameRepliesArray.length - 1;
   const responseNumber = Math.floor(Math.random() * i);
   
   message.reply(shameRepliesArray[responseNumber]);
