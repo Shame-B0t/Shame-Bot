@@ -1,4 +1,5 @@
 const { parseTime, timeToMs, msToString } = require('../utils/parseTime');
+const { randomArrayIndex } = require('../utils/publiclyShame');
 
 describe('tests utility functions', () => {
   it('converts a string formatted as 00:00 into milliseconds', () => {
@@ -46,7 +47,8 @@ describe('tests utility functions', () => {
     let C = 0;
     
     for(let i = 0; i < 100; i++) {
-      const response = Math.floor(Math.random() * shameArray.length);
+      const response = randomArrayIndex(shameArray);
+
       if(shameArray[response] === 'A') A++;
       else if(shameArray[response] === 'B') B++;
       else if(shameArray[response] === 'C') C++;

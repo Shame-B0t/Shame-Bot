@@ -68,6 +68,7 @@ async function ifStart(message, client){
         // handle listening for new message differently?
         publiclyShame(message);
         break;
+        
       case MODE_2:
         if(isUserOwner(message)) {
           message.reply(botReplies.userIsOwner());

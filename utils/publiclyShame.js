@@ -2,6 +2,10 @@
 const { usersArray } = require('../commands/start');
 const { shameRepliesArray } = require('../data/shameReplies');
 
+function randomArrayIndex(array) {
+  return Math.floor(Math.random() * array.length);
+}
+
 function publiclyShame(message) {
   const focusedUser = usersArray.find(activeUser =>
     activeUser.userId === message.author.id
@@ -11,9 +15,9 @@ function publiclyShame(message) {
   if(message.author !== focusedUser || message.author.bot) return;
   
   // replies to message with a random response from shameReplies.js
-  const i = Math.floor(Math.random() * shameRepliesArray.length);
+  const i = randomArrayIndex(shameRepliesArray);
   
   message.reply(shameRepliesArray[i]);
 }
 
-module.exports = { publiclyShame };
+module.exports = { publiclyShame, randomArrayIndex };
