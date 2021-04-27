@@ -1,24 +1,36 @@
 require('dotenv').config();
-
 const Discord = require('discord.js');
 const { ifChallenge } = require('./commands/challenge');
-const client = new Discord.Client(); // make an instance of the Client class as our 'client'
+const client = new Discord.Client(); 
 const { ifStart } = require('./commands/start');
 const { helpMessage } = require('./commands/help');
 const { ifExit } = require('./commands/stop');
+const { autoReply } = require('./utils/autoReply');
+// const { overwriteChannelPerms } = require('./utils/overwriteChannelPerms');
+const { randomMeme } = require('./stretch/randomMeme');
+const { publiclyShame } = require('./utils/publiclyShame');
+const { timeCheck } = require('./commands/time');
 
+// const { overwriteChannelPerms } = require('./utils/overwriteChannelPerms');
 
 client.once('ready', () => {
-  console.log('Good to go, boss!'); 
-  // check for and make channel if needed
-  // check for and make webhook if needed
+  console.log('Good to go, boss!');
+
+  client.user.setActivity('over you | type --help', { type: 'WATCHING' })
+    .then(presence => console.log(`Activity set to ${presence.activities[0].name}`))
+    .catch(console.error);
+
 });
 
 client.login(process.env.TOKEN);
 
 client.on('message', (message) => {
-  ifStart(message, client); //!focus
-  ifExit(message); //!exit
-  ifChallenge(message); 
-  helpMessage(message);
+  ifStart(message, client); //--focus
+  autoReply(message); // check mentions
+  publiclyShame(message); // listen for shamed user message
+  ifExit(message); //--exit
+  ifChallenge(message); //--challenge
+  timeCheck(message); //--time
+  helpMessage(message); //--help
+  randomMeme(message);
 });

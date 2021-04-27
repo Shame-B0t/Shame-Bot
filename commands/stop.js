@@ -1,4 +1,5 @@
 //  response to command "stop": interrupt and end the timeout that is affecting the user
+const { botReplies } = require('../data/shameReplies');
 const { presentChallenge } = require('../utils/timeInterrupt');
 const { usersArray }  = require('./start');
 
@@ -10,7 +11,7 @@ function ifExit(message){
       const user = usersArray[i];
 
       if(message.author.id === user.userId && user.mode !== 'lockdown'){
-        message.reply('you ended your timer early, your roles have been restored');
+        message.reply(botReplies.timerEndedEarly());
         user.isActive = false;
       }
       if(message.author.id === user.userId && user.mode === 'lockdown'){

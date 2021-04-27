@@ -1,4 +1,5 @@
 const { parseTime, timeToMs, msToString } = require('../utils/parseTime');
+const { randomArrayIndex } = require('../utils/publiclyShame');
 
 describe('tests utility functions', () => {
   it('converts a string formatted as 00:00 into milliseconds', () => {
@@ -37,5 +38,84 @@ describe('tests utility functions', () => {
     expect(msToString(3600000)).toEqual(stringTime2);
     expect(msToString(4500000)).toEqual(stringTime3);
     expect(msToString(36060000)).toEqual(stringTime4);
+  });
+
+  it('loops through shameRepliesArray and gets a random response', () => {
+    const shameArray = ['A', 'B', 'C'];
+    let A = 0;
+    let B = 0;
+    let C = 0;
+    
+    for(let i = 0; i < 100; i++) {
+      const response = randomArrayIndex(shameArray);
+
+      if(shameArray[response] === 'A') A++;
+      else if(shameArray[response] === 'B') B++;
+      else if(shameArray[response] === 'C') C++;
+
+      if(A > 0 && B > 0 && C > 0) break;
+    }
+
+    expect(A > 0 && B > 0 && C > 0).toEqual(true);
+    // to test how many times loop runs before each is hit:
+    // expect(A + B + C).toEqual('');
+  });   
+  // create small response array and loop through func a set amount or times OR until each response gets hit at least 5 times?
+
+  it('mutates array in place while maintaining integrity of loop indices', () => {
+    const arr = [1, 3, 3, 4, 5, 5, 7, 8, 9, 9];
+    for(let i = 0; i < arr.length; i++) {
+      const num = arr[i];
+      if(num % 2 === 0){
+        arr.splice(i, 1);
+        i--;
+      }
+    }
+    expect(arr).toEqual([1, 3, 3, 5, 5, 7, 9, 9]);
+  });
+
+  it('mutates array in place while maintaining integrity of loop indices', () => {
+    const arr = [2, 2, 4, 4, 5, 5, 6, 8, 8, 9];
+    for(let i = 0; i < arr.length; i++) {
+      const num = arr[i];
+      if(num % 2 === 0){
+        arr.splice(i, 1);
+        i--;
+      }
+    }
+    expect(arr).toEqual([5, 5, 9]);
+  });
+  it('mutates array in place while maintaining integrity of loop indices', () => {
+    const arr = [2, 2, 4, 4, 6, 4, 6, 8, 8, 10];
+    for(let i = 0; i < arr.length; i++) {
+      const num = arr[i];
+      if(num % 2 === 0){
+        arr.splice(i, 1);
+        i--;
+      }
+    }
+    expect(arr).toEqual([]);
+  });
+  it('mutates array in place while maintaining integrity of loop indices', () => {
+    const arr = [1, 3, 3, 5, 5, 5, 7, 8, 9, 9];
+    for(let i = 0; i < arr.length; i++) {
+      const num = arr[i];
+      if(num % 2 === 0){
+        arr.splice(i, 1);
+        i--;
+      }
+    }
+    expect(arr).toEqual([1, 3, 3, 5, 5, 5, 7, 9, 9]);
+  });
+  it('mutates array in place while maintaining integrity of loop indices', () => {
+    const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    for(let i = 0; i < arr.length; i++) {
+      const num = arr[i];
+      if(num % 2 === 0){
+        arr.splice(i, 1);
+        i--;
+      }
+    }
+    expect(arr).toEqual([1, 3, 5, 7, 9]);
   });
 });
