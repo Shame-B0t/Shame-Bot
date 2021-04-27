@@ -5,7 +5,9 @@
   'tsk tsk. Back to focus time!',
   'excuse me bruv, aren\'t you supposed to be focusing!!',
   'Oy! Shouldn\'t you be focusin mate?',
-  ''
+  'according to my calculations, you are currently in focus mode and shouldn\'t be posting any comments!!',
+  'is posting comments when they SHOULD NOT BE',
+
 ];
 
 const botReplies = {
