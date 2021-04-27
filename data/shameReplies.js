@@ -1,6 +1,7 @@
 const shameRepliesArray = [
   'shouldn"t you be focusing?',
   'tsk tsk. Back to focus time!',
+  'back to work, buddy',
   ''
 ];
 
