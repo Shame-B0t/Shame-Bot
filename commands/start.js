@@ -1,8 +1,7 @@
 const { botReplies } = require('../data/shameReplies');
 const { makeNewPrivateChannel } = require('../utils/newChannel');
-const { createRole, deleteRole } = require('../utils/newRole');
 const { overwriteChannelPerms } = require('../utils/overwriteChannelPerms');
-const { assignNewRole, isUserOwner, getUserRoles, stripUserRoles, restoreUserRoles } = require('../utils/updateRoles');
+const { isUserOwner, getUserRoles } = require('../utils/updateRoles');
 
 const PREFIX = '--';
 const MODE_1 = 'shame';
@@ -67,7 +66,7 @@ async function ifStart(message, client){
       case MODE_1:
         // TODO publiclyShame.js
         break;
-        
+
       case MODE_2:
         if(isUserOwner(message)) {
           message.reply(botReplies.userIsOwner());
