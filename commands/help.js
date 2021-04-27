@@ -3,8 +3,7 @@ const Discord = require('discord.js');
 
 function helpMessage(message) {
 
-  // eslint-disable-next-line keyword-spacing
-  if (message.author.bot || !message.content === '--help') return;
+  if(message.author.bot || !message.content === '--help') return;
 
   const helpMessageEmbed = new Discord.MessageEmbed()
     .setColor('#38000c')
@@ -41,8 +40,7 @@ function helpMessage(message) {
 
     .setFooter('have a productive day!', 'https://avatars.githubusercontent.com/u/83033726?s=200&v=4');
 
-  // eslint-disable-next-line keyword-spacing
-  if (message.content.includes('--help')) message.channel.send(helpMessageEmbed);
+  if(message.content.includes('--help')) message.channel.send(helpMessageEmbed);
 }
 
 module.exports = { helpMessage };

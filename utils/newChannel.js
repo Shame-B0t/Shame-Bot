@@ -13,11 +13,12 @@ sends an @ mention to the triggering user from the new channel after it is insta
 for test/illustration purposes, deleteChannel is being used here after a ten second timeout
 */
 
-const makeNewPrivateChannel = (client, { guild, author }) => {
+const makeNewPrivateChannel = (client, { guild, author }, timeout) => {
   const { channels } = guild;
   
   // maybe add in a react here on the original message that indicates it's been heard? in case the user misses the mention from the new channel? A lil ear emoji? Some studious person? A speech bubble? A telephone?
 
+  // TODO add role permission for the newly created role, possibly
   channels.create(`${ author.username }-focus`, {
     type: 'text',
     permissionOverwrites: [{
@@ -35,7 +36,7 @@ const makeNewPrivateChannel = (client, { guild, author }) => {
   })
     .then(newChannel => {
       newChannel.send(`Welcome, <@${author.id}>`);
-      setTimeout(() => deleteChannel(newChannel), 10000);
+      setTimeout(() => deleteChannel(newChannel), timeout);
     })
     .catch(console.error);
 };
