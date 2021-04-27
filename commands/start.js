@@ -1,4 +1,5 @@
 const { botReplies } = require('../data/shameReplies');
+const { changeNickname } = require('../stretch/changeNickname');
 const { makeNewPrivateChannel } = require('../utils/newChannel');
 const { createRole, deleteRole } = require('../utils/newRole');
 const { assignNewRole, isUserOwner, getUserRoles, stripUserRoles, restoreUserRoles } = require('../utils/updateRoles');
@@ -63,7 +64,7 @@ async function ifStart(message, client){
 
     // assign mode based on user choice
     switch(mode){
-      case MODE_1:
+      case MODE_1: changeNickname(message);
         // TODO publiclyShame.js
         break;
       case MODE_2:
