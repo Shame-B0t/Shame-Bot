@@ -6,16 +6,14 @@ const PREFIX = '--';
 
 const usersArray = [];
 
-// TODO experiment/test this length problem
-
 setInterval(() => {
   // let now = Date.now() ???
   for(let i = 0; i < usersArray.length; i++){
     const user = usersArray[i];
     if(user.endTime < Date.now() || user.isActive === false){ 
-      // CONSIDER only incrementing when not splicing to preserve i at the correct index/not skip things
-      // TODO fix this logic so we aren't messing with the array length - filter??? indices will change ?
+
       usersArray.splice(i, 1);
+      i--;
 
       if(user.isActive) user.originalChannel.send(`<@${user.userId}>TIME IS UP`);
     }
