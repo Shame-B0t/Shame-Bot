@@ -6,6 +6,8 @@ const { ifStart } = require('./commands/start');
 const { helpMessage } = require('./commands/help');
 const { ifExit } = require('./commands/stop');
 const { autoReply } = require('./utils/autoReply');
+// const { overwriteChannelPerms } = require('./utils/overwriteChannelPerms');
+const { randomMeme } = require('./stretch/randomMeme');
 const { publiclyShame } = require('./utils/publiclyShame');
 const { timeCheck } = require('./commands/time');
 
@@ -30,4 +32,5 @@ client.on('message', (message) => {
   ifChallenge(message); //--challenge
   timeCheck(message); //--time
   helpMessage(message); //--help
+  randomMeme(message);
 });
