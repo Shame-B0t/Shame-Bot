@@ -8,10 +8,19 @@ function autoReply(message) {
   if(!message.mentions.users || message.author.bot) return;
   
   //check all mentioned users to see if they are on list of focused users
+  console.log('FROM ARRAY', usersArray[0].userId);
 
+  
   for(const mentionedUser of message.mentions.users) {
-    const focusedUser = usersArray.find(focusedUser => focusedUser.userId === mentionedUser.id);
-
+    
+    const focusedUser = usersArray.find(activeUser =>
+      activeUser.userId === mentionedUser[1].id
+    );
+    
+    console.log('MENTION ID', mentionedUser[0]);
+    console.log('MENTION', mentionedUser[1]);
+    console.log('FOCUSED', focusedUser);
+    
     if(focusedUser) {
       const endTime = remainingTime(focusedUser.endTime);
       const timeLeft = msToString(endTime);

@@ -46,7 +46,7 @@ async function ifStart(message, client){
 
     // const parsedTime = parseTime(timeoutLength);
     
-    const parsedTime = 10000;
+    const parsedTime = 15000;
 
     const userObj = {
       userId: message.author.id,
