@@ -21,7 +21,7 @@ setInterval(() => {
       // TODO fix this logic so we aren't messing with the array length - filter??? indices will change ?
       usersArray.splice(i, 1);
 
-      if(user.isActive) user.originalChannel.send(botReplies.timerEnded(user.id));
+      if(user.isActive) user.originalChannel.send(botReplies.timerEnded(user.userId));
     }
   }
   // console.log(usersArray.map(user => user.username));
@@ -50,7 +50,7 @@ async function ifStart(message, client){
 
     // const parsedTime = parseTime(timeoutLength);
     
-    const parsedTime = 45000;
+    const parsedTime = 10000;
 
     const userObj = {
       userId: message.author.id,
