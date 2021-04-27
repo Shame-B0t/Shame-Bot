@@ -1,10 +1,14 @@
 const shameRepliesArray = [
   'shouldn"t you be focusing?',
   'tsk tsk. Back to focus time!',
-  'excuse me bruv, aren\'t you supposed to be focusing!!',
+  'excuse me bruv, aren\'t you supposed to be focusing!?!',
   'Oy! Shouldn\'t you be focusin mate?',
+  'according to my calculations, you are currently in focus mode and shouldn\'t be posting any comments!!',
+  'is posting comments when they SHOULD NOT BE',
   'back to work, buddy',
-  ''
+  '"always remember, your focus determines your reality" - Yoda ... so hup to it!!',
+  'I\'m telling mum you\'re commenting where you shouldn\'t be',
+  '\'s focus game is NOT 💯',
 ];
 
 const botReplies = {

@@ -4,8 +4,6 @@ const { isBotRoleHigher } = require('../utils/checkRoleStatus');
 const { makeNewPrivateChannel } = require('../utils/newChannel');
 const { overwriteChannelPerms } = require('../utils/overwriteChannelPerms');
 const { isUserOwner, getUserRoles } = require('../utils/updateRoles');
-// const { publiclyShame } = require('../utils/publiclyShame');
-
 
 const PREFIX = '--';
 const MODE_1 = 'shame';
@@ -58,7 +56,7 @@ async function ifStart(message, client){
 
     // const parsedTime = parseTime(timeoutLength);
     
-    const parsedTime = 10000;
+    const parsedTime = 20000;
 
     const userObj = {
       userId: message.author.id,
@@ -76,18 +74,11 @@ async function ifStart(message, client){
     // assign mode based on user choice
     switch(mode){
       case MODE_1:
-        // handle listening for new message differently?
-
-        // publiclyShame(message);
 
         if(isBotRoleHigher(message)) changeNickname(message, userObj);
-        
-        // TODO make sure that publiclyShame has correct access to the usersArray, right now the user doens't get placed there until after the switch statement
-
-        message.reply('DW placeholder confirmation that shame was selected');
 
         break;
-
+        
       case MODE_2:
         if(isUserOwner(message)) {
           message.reply(botReplies.userIsOwner());
@@ -129,7 +120,6 @@ async function ifStart(message, client){
       default: message.reply(botReplies.invalidStatus()); 
         return;
     }
-
     
     message.reply(botReplies.confirmMode(mode));
     message.reply(botReplies.confirmTime(parsedTime));
