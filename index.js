@@ -16,10 +16,6 @@ client.once('ready', () => {
   client.user.setActivity('over you | type --help', { type: 'WATCHING' })
     .then(presence => console.log(`Activity set to ${presence.activities[0].name}`))
     .catch(console.error);
-
-  // client.user.setPresence({ activity: { name: 'type `--help` or `focus` to start' }, status: 'online' })
-  //   .then(console.log)
-  //   .catch(console.error);
 });
 
 
