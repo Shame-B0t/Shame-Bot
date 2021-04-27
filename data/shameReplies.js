@@ -1,8 +1,7 @@
-// a place to create a large object full of bot replies
-
-[
+const shameRepliesArray = [
   'shouldn"t you be focusing?',
   'tsk tsk. Back to focus time!',
+  'back to work, buddy',
   ''
 ];
 
@@ -63,10 +62,9 @@ const botReplies = {
   challengeIncomplete(response, challengeParam){
     return `You only typed ${response.length} out of the ${challengeParam} word requirement. Resubmit your answer using --challenge with ${challengeParam - response.length} more words`;
   }
-
-
 };
 
 module.exports = {
   botReplies,
+  shameRepliesArray
 };
