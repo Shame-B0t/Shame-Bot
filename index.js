@@ -7,6 +7,7 @@ const { ifStart } = require('./commands/start');
 const { helpMessage } = require('./commands/help');
 const { ifExit } = require('./commands/stop');
 const { autoReply } = require('./utils/autoReply');
+const { timeCheck } = require('./commands/time');
 // const { overwriteChannelPerms } = require('./utils/overwriteChannelPerms');
 
 
@@ -28,5 +29,6 @@ client.on('message', (message) => {
   autoReply(message); // check mentions
   ifExit(message); //--exit
   ifChallenge(message); //--challenge
+  timeCheck(message); //--time
   helpMessage(message); //--help
 });
