@@ -86,7 +86,7 @@ async function ifStart(message, client){
         }
        
         else if(!isBotRoleHigher(message)) {
-          message.reply('Nope, sorry, you\'re too powerful for me. Try `shame` mode, or ask someone with administrative priveliges to move my role up in the hierarchy');
+          message.reply(botReplies.tooPowerful());
           return;
         }
 
@@ -106,7 +106,7 @@ async function ifStart(message, client){
         }
 
         else if(!isBotRoleHigher(message)) {
-          message.reply('Nope, sorry, you\'re too powerful for me. Try `shame` mode, or ask someone with administrative priveliges to move my role up in the hierarchy');
+          message.reply(botReplies.tooPowerful());
           return;
         }
         console.log('permissions cleared, continuing function');
