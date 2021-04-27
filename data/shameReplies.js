@@ -28,6 +28,10 @@ const botReplies = {
     return 'Sorry, server owners cannot use the bot in isolation or lockdown modes.';
   },
 
+  changeOwnerNickname(){
+    return 'Sorry, Shame-b02 cannot change a server owner\'s nickname, but other functionality in shame mode should work as expected.';
+  },
+
   createRoleString(){
     return 'test-user role';
   },
