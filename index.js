@@ -7,8 +7,8 @@ const { ifStart } = require('./commands/start');
 const { helpMessage } = require('./commands/help');
 const { ifExit } = require('./commands/stop');
 const { autoReply } = require('./utils/autoReply');
+const { timeCheck } = require('./commands/time');
 // const { overwriteChannelPerms } = require('./utils/overwriteChannelPerms');
-
 
 client.once('ready', () => {
   console.log('Good to go, boss!');
@@ -19,8 +19,6 @@ client.once('ready', () => {
 
 });
 
-
-
 client.login(process.env.TOKEN);
 
 client.on('message', (message) => {
@@ -29,5 +27,6 @@ client.on('message', (message) => {
   // TODO add publiclyShame, similar to autoReply in its logic
   ifExit(message); //--exit
   ifChallenge(message); //--challenge
+  timeCheck(message); //--time
   helpMessage(message); //--help
 });
