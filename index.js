@@ -7,7 +7,7 @@ const { ifStart } = require('./commands/start');
 const { helpMessage } = require('./commands/help');
 const { ifExit } = require('./commands/stop');
 const { autoReply } = require('./utils/autoReply');
-// const { overwriteChannelPerms } = require('./utils/overwriteChannelPerms');
+const { isBotRoleHigher } = require('./utils/checkRoleStatus');
 
 
 client.once('ready', () => {
@@ -30,4 +30,8 @@ client.on('message', (message) => {
   ifExit(message); //--exit
   ifChallenge(message); //--challenge
   helpMessage(message); //--help
+});
+
+client.on('message', message => {
+  if(message.content.startsWith('--roleStatus')) console.log(isBotRoleHigher(message));
 });

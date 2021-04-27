@@ -1,5 +1,6 @@
 const { botReplies } = require('../data/shameReplies');
 const { changeNickname, restoreNickname } = require('../stretch/changeNickname');
+const { isBotRoleHigher } = require('../utils/checkRoleStatus');
 const { makeNewPrivateChannel } = require('../utils/newChannel');
 const { overwriteChannelPerms } = require('../utils/overwriteChannelPerms');
 const { isUserOwner, getUserRoles } = require('../utils/updateRoles');
@@ -13,6 +14,8 @@ const MODE_3 = 'lockdown';
 
 const usersArray = [];
 
+// TODO consider nested setTimeouts, safer option than this 1s interval check
+
 setInterval(() => {
   // let now = Date.now() ???
   for(let i = 0; i < usersArray.length; i++){
@@ -24,7 +27,7 @@ setInterval(() => {
 
       if(user.isActive && !user.member.guild.owner){
         user.originalChannel.send(botReplies.timerEnded(user.userId));
-        restoreNickname(user, user.member);
+        if(isBotRoleHigher({ member: user.member })) restoreNickname(user, user.member);
       }
       if(user.isActive && user.member.guild.owner)user.originalChannel.send(botReplies.timerEnded(user.userId)); 
     }
@@ -76,7 +79,9 @@ async function ifStart(message, client){
         // handle listening for new message differently?
 
         // publiclyShame(message);
-        changeNickname(message, userObj);
+
+        if(isBotRoleHigher(message)) changeNickname(message, userObj);
+        
         // TODO make sure that publiclyShame has correct access to the usersArray, right now the user doens't get placed there until after the switch statement
 
         message.reply('DW placeholder confirmation that shame was selected');
@@ -88,9 +93,19 @@ async function ifStart(message, client){
           message.reply(botReplies.userIsOwner());
           return;
         }
-        changeNickname(message, userObj);
-        overwriteChannelPerms(message);
-        makeNewPrivateChannel(client, message, parsedTime);
+       
+        else if(!isBotRoleHigher(message)) {
+          message.reply('Nope, sorry, you\'re too powerful for me. Try `shame` mode, or ask someone with administrative priveliges to move my role up in the hierarchy');
+          return;
+        }
+
+        else {
+          console.log('permissions cleared, continuing function');
+          changeNickname(message, userObj);
+  
+          overwriteChannelPerms(message);
+          makeNewPrivateChannel(client, message, parsedTime);
+        }
         break;
       
       case MODE_3: {
@@ -98,7 +113,14 @@ async function ifStart(message, client){
           message.reply(botReplies.userIsOwner());
           return;
         }
+
+        else if(!isBotRoleHigher(message)) {
+          message.reply('Nope, sorry, you\'re too powerful for me. Try `shame` mode, or ask someone with administrative priveliges to move my role up in the hierarchy');
+          return;
+        }
+        console.log('permissions cleared, continuing function');
         changeNickname(message, userObj);
+
         overwriteChannelPerms(message);
         makeNewPrivateChannel(client, message, parsedTime);
       }
