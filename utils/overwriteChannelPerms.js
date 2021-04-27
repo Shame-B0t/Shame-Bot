@@ -1,7 +1,9 @@
 const overwriteChannelPerms = async ({ guild, author }) => {
   const { channels } = guild;
   const originalChannels = channels.cache;
- 
+
+  // TODO need to run a check for whether user is an admin - these overwrites don't seem to have an affect on admins
+
   originalChannels.forEach(channel => {
     channel.createOverwrite(author.id, {
       'VIEW_CHANNEL': false
