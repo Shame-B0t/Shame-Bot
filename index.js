@@ -10,7 +10,6 @@ const { autoReply } = require('./utils/autoReply');
 const { timeCheck } = require('./commands/time');
 // const { overwriteChannelPerms } = require('./utils/overwriteChannelPerms');
 
-
 client.once('ready', () => {
   console.log('Good to go, boss!');
 
@@ -19,8 +18,6 @@ client.once('ready', () => {
     .catch(console.error);
 
 });
-
-
 
 client.login(process.env.TOKEN);
 
