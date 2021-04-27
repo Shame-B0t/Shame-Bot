@@ -8,7 +8,6 @@ function autoReply(message) {
   if(!message.mentions.users || message.author.bot) return;
   
   //check all mentioned users to see if they are on list of focused users
-  console.log('FROM ARRAY', usersArray[0].userId);
 
   
   for(const mentionedUser of message.mentions.users) {
