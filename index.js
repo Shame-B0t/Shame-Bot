@@ -26,6 +26,7 @@ client.login(process.env.TOKEN);
 client.on('message', (message) => {
   ifStart(message, client); //--focus
   autoReply(message); // check mentions
+  // TODO add publiclyShame, similar to autoReply in its logic
   ifExit(message); //--exit
   ifChallenge(message); //--challenge
   helpMessage(message); //--help

@@ -1,8 +1,9 @@
 const { botReplies } = require('../data/shameReplies');
+const { changeNickname, restoreNickname } = require('../stretch/changeNickname');
 const { makeNewPrivateChannel } = require('../utils/newChannel');
 const { overwriteChannelPerms } = require('../utils/overwriteChannelPerms');
 const { isUserOwner, getUserRoles } = require('../utils/updateRoles');
-const { publiclyShame } = require('../utils/publiclyShame');
+// const { publiclyShame } = require('../utils/publiclyShame');
 
 
 const PREFIX = '--';
@@ -21,7 +22,11 @@ setInterval(() => {
       usersArray.splice(i, 1);
       i--;
 
-      if(user.isActive) user.originalChannel.send(botReplies.timerEnded(user.userId));
+      if(user.isActive && !user.member.guild.owner){
+        user.originalChannel.send(botReplies.timerEnded(user.userId));
+        restoreNickname(user, user.member);
+      }
+      if(user.isActive && user.member.guild.owner)user.originalChannel.send(botReplies.timerEnded(user.userId)); 
     }
   }
   // console.log(usersArray.map(user => user.username));
@@ -60,14 +65,20 @@ async function ifStart(message, client){
       startTime: Date.now(),
       endTime: Date.now() + parsedTime,
       originalChannel: message.channel,
-      userRoles: getUserRoles(message)
+      userRoles: getUserRoles(message),
+      nickname: message.member.nickname,
+      member: message.member,
     };
 
     // assign mode based on user choice
     switch(mode){
       case MODE_1:
         // handle listening for new message differently?
-        publiclyShame(message);
+
+        // publiclyShame(message);
+        changeNickname(message, userObj);
+        // TODO make sure that publiclyShame has correct access to the usersArray, right now the user doens't get placed there until after the switch statement
+
         break;
 
       case MODE_2:
@@ -75,6 +86,7 @@ async function ifStart(message, client){
           message.reply(botReplies.userIsOwner());
           return;
         }
+        changeNickname(message, userObj);
         overwriteChannelPerms(message);
         makeNewPrivateChannel(client, message, parsedTime);
         break;
@@ -84,6 +96,7 @@ async function ifStart(message, client){
           message.reply(botReplies.userIsOwner());
           return;
         }
+        changeNickname(message, userObj);
         overwriteChannelPerms(message);
         makeNewPrivateChannel(client, message, parsedTime);
       }
