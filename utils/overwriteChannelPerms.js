@@ -13,11 +13,14 @@ const makeChannelOverwrites = (channels, author) => {
   });
 };
 
-const removeChannelOverwrites = (channels, author, timeout) => {
+const removeChannelOverwrites = (channels, author, member, adminRoles, timeout) => {
   setTimeout(() => {
     channels.forEach(channel => {
       try {
         channel.permissionOverwrites.get(author.id).delete();
+        
+        // admin check to see if roles should be restored, then restore roles
+        if(adminRoles.length) adminRoles.forEach(role => member.roles.add(role));
       }
       catch(error) {
         console.log(`No delete of overwrites in ${channel.name}`);
@@ -44,14 +47,14 @@ const overwriteChannelPerms = ({ guild, author, member }) => {
     
     makeChannelOverwrites(originalChannels, author);
 
-    removeChannelOverwrites(originalChannels, author, 5000);
+    removeChannelOverwrites(originalChannels, author, member, adminRoles, 5000);
 
-    // adminRoles.forEach(role => member.roles.add(role));
+    
   }
   else {
     // non-admin block works as intended
     makeChannelOverwrites(originalChannels, author);
-    removeChannelOverwrites(originalChannels, author, 5000);
+    removeChannelOverwrites(originalChannels, author, member, [], 5000);
   }
 };
 

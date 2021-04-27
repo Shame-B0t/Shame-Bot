@@ -25,5 +25,5 @@ client.on('message', (message) => {
 });
 
 client.on('message', async message => {
-  await overwriteChannelPerms(message);
+  if(message.content.startsWith('--channel')) await overwriteChannelPerms(message);
 });
