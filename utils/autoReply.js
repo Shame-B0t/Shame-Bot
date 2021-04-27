@@ -20,7 +20,7 @@ function autoReply(message) {
       const timeLeft = msToString(endTime);
 
       // send autoreply that they are focusing
-      message.reply(botReplies.autoReplyToSender(timeLeft));
+      message.reply(botReplies.autoReplyToSender(focusedUser, timeLeft));
     }
   }
 }
