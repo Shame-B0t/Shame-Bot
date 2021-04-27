@@ -64,7 +64,7 @@ async function ifStart(message, client){
 
     // assign mode based on user choice
     switch(mode){
-      case 'shame':
+      case MODE_1:
         // handle listening for new message differently?
         publiclyShame(message);
         break;
