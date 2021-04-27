@@ -1,6 +1,6 @@
 // // listens for target-user activity in non-approved channels and shames the user if any activity is detected
-// const { usersArray } = require('../commands/start');
-// const { shameRepliesArray } = require('../data/shameReplies');
+const { usersArray } = require('../commands/start');
+const { shameRepliesArray } = require('../data/shameReplies');
 
 function randomArrayIndex(array) {
   return Math.floor(Math.random() * array.length);
