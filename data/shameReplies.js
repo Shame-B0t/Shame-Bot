@@ -4,7 +4,6 @@ const shameRepliesArray = [
   'excuse me bruv, aren\'t you supposed to be focusing!!',
   'Oy! Shouldn\'t you be focusin mate?',
   'back to work, buddy',
-  ''
 ];
 
 const botReplies = {
