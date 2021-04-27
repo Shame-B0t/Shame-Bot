@@ -1,10 +1,15 @@
 const shameRepliesArray = [
-  'shouldn"t you be focusing?',
   'tsk tsk. Back to focus time!',
-  'excuse me bruv, aren\'t you supposed to be focusing!!',
+  'excuse me bruv, aren\'t you supposed to be focusing!?!',
   'Oy! Shouldn\'t you be focusin mate?',
+  'according to my calculations, you are currently in focus mode and shouldn\'t be posting any comments!!',
+  'is posting comments when they SHOULD NOT BE',
   'back to work, buddy',
-  ''
+  '"always remember, your focus determines your reality" - Yoda ... so hup to it!!',
+  'I\'m telling mum you\'re commenting where you shouldn\'t be',
+  '\'s focus game is NOT 💯',
+  'time to get back to work, pal',
+  'why aren\'t you focusing??'
 ];
 
 const botReplies = {
@@ -29,6 +34,10 @@ const botReplies = {
     return 'Sorry, server owners cannot use the bot in isolation or lockdown modes.';
   },
 
+  changeOwnerNickname(){
+    return 'Sorry, Shame-b02 cannot change a server owner\'s nickname, but other functionality in shame mode should work as expected.';
+  },
+
   createRoleString(){
     return 'test-user role';
   },
@@ -41,8 +50,13 @@ const botReplies = {
     return `you will be restricted for ${time / 60000} mins`;
   },
 
-  autoReplyToSender(remainingTime){
-    return `Sorry, this user is in focus mode currently. Their focus time ends in ${remainingTime}`;
+  autoReplyToSender(user, remainingTime){
+    const nickname = user.nickname;
+    if(nickname) {
+      return `Sorry, ${nickname} is in focus mode currently. Their focus time ends in ${remainingTime}`;
+    } else if(!nickname) {
+      return `Sorry, ${user.username} is in focus mode currently. Their focus time ends in ${remainingTime}`;
+    }
   },
 
   timerEndedEarly(){
@@ -63,6 +77,10 @@ const botReplies = {
 
   challengeIncomplete(response, challengeParam){
     return `You only typed ${response.length} out of the ${challengeParam} word requirement. Resubmit your answer using --challenge with ${challengeParam - response.length} more words`;
+  },
+
+  tooPowerful(){
+    return 'Nope, sorry, you\'re too powerful for me. Try `shame` mode, or ask someone with administrative priveliges to move my role up in the hierarchy';
   }
 };
 
