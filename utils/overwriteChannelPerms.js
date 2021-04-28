@@ -29,7 +29,7 @@ const removeChannelOverwrites = (channels, author, member, adminRoles, timeout) 
   }, timeout);
 };
 
-const overwriteChannelPerms = ({ guild, author, member }) => {
+const overwriteChannelPerms = ({ guild, author, member }, timeOut) => {
   const { channels } = guild;
   const originalChannels = channels.cache;
   
@@ -45,14 +45,14 @@ const overwriteChannelPerms = ({ guild, author, member }) => {
     
     makeChannelOverwrites(originalChannels, author);
 
-    removeChannelOverwrites(originalChannels, author, member, adminRoles, 10000);
+    removeChannelOverwrites(originalChannels, author, member, adminRoles, timeOut);
 
     
   }
   else {
     // non-admin block works as intended
     makeChannelOverwrites(originalChannels, author);
-    removeChannelOverwrites(originalChannels, author, member, [], 10000);
+    removeChannelOverwrites(originalChannels, author, member, [], timeOut);
   }
 };
 

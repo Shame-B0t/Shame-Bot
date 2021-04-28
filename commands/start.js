@@ -4,6 +4,7 @@ const { isBotRoleHigher } = require('../utils/checkRoleStatus');
 const { makeNewPrivateChannel } = require('../utils/newChannel');
 const { overwriteChannelPerms } = require('../utils/overwriteChannelPerms');
 const { isUserOwner, getUserRoles } = require('../utils/updateRoles');
+const { parseTime } = require('../utils/parseTime');
 
 const PREFIX = '--';
 const MODE_1 = 'shame';
@@ -54,9 +55,9 @@ async function ifStart(message, client){
     
     if(!timeRegex.test(timeoutLength)) return message.reply(botReplies.invalidTime(mode));
 
-    // const parsedTime = parseTime(timeoutLength);
+    const parsedTime = parseTime(timeoutLength);
     
-    const parsedTime = 20000;
+    // const parsedTime = 20000;
 
     const userObj = {
       userId: message.author.id,
@@ -94,7 +95,7 @@ async function ifStart(message, client){
           console.log('permissions cleared, continuing function');
           changeNickname(message, userObj);
   
-          overwriteChannelPerms(message);
+          overwriteChannelPerms(message, parsedTime);
           makeNewPrivateChannel(client, message, parsedTime);
         }
         break;
@@ -112,7 +113,7 @@ async function ifStart(message, client){
         console.log('permissions cleared, continuing function');
         changeNickname(message, userObj);
 
-        overwriteChannelPerms(message);
+        overwriteChannelPerms(message, parsedTime);
         makeNewPrivateChannel(client, message, parsedTime);
       }
         break;
