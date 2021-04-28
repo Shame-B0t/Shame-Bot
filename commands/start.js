@@ -21,14 +21,19 @@ setInterval(() => {
     const user = usersArray[i];
     if(user.endTime < Date.now() || user.isActive === false){ 
 
-      usersArray.splice(i, 1);
-      i--;
+      if(!user.isActive){
+        if(isBotRoleHigher({ member: user.member })) restoreNickname(user, user.member);
+      }
 
       if(user.isActive && !user.member.guild.owner){
         user.originalChannel.send(botReplies.timerEnded(user.userId));
         if(isBotRoleHigher({ member: user.member })) restoreNickname(user, user.member);
       }
       if(user.isActive && user.member.guild.owner)user.originalChannel.send(botReplies.timerEnded(user.userId)); 
+
+      usersArray.splice(i, 1);
+      i--;
+
     }
   }
   // console.log(usersArray.map(user => user.username));
