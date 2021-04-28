@@ -4,7 +4,7 @@ const { isBotRoleHigher } = require('../utils/checkRoleStatus');
 const { makeNewPrivateChannel } = require('../utils/newChannel');
 const { overwriteChannelPerms } = require('../utils/overwriteChannelPerms');
 const { isUserOwner, getUserRoles } = require('../utils/updateRoles');
-const { parseTime } = require('../utils/parseTime');
+// const { parseTime } = require('../utils/parseTime');
 
 const PREFIX = '--';
 const MODE_1 = 'shame';
@@ -30,6 +30,14 @@ setInterval(() => {
         if(isBotRoleHigher({ member: user.member })) restoreNickname(user, user.member);
       }
       if(user.isActive && user.member.guild.owner)user.originalChannel.send(botReplies.timerEnded(user.userId)); 
+
+      if(!user.isActive && user.userSetTimer){
+        user.botTimerMessage.delete();
+      }
+
+      if(user.isActive && user.userSetTimer){
+        user.botTimerMessage.delete();
+      }
 
       usersArray.splice(i, 1);
       i--;
@@ -60,9 +68,9 @@ async function ifStart(message, client){
     
     if(!timeRegex.test(timeoutLength)) return message.reply(botReplies.invalidTime(mode));
 
-    const parsedTime = parseTime(timeoutLength);
+    // const parsedTime = parseTime(timeoutLength);
     
-    // const parsedTime = 20000;
+    const parsedTime = 20000;
 
     const userObj = {
       userId: message.author.id,
