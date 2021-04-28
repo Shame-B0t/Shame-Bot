@@ -17,7 +17,7 @@ const usersArray = [];
 
 setInterval(async () => {
   // let now = Date.now() ???
-  console.log(usersArray.map(user => user.guildChannels.map(channel => channel.name)));
+  console.log(usersArray.map(user => user.username));
   
   for(let i = 0; i < usersArray.length; i++){
     const user = usersArray[i];
@@ -28,16 +28,23 @@ setInterval(async () => {
       if(!user.isActive){
         if(isBotRoleHigher({ member: user.member })) restoreNickname(user, user.member);
         // restore things!
-        await removeChannelOverwrites(user);
-        deleteChannel(user.newChannel);
+
+        if(user.mode !== MODE_1) {
+          await removeChannelOverwrites(user);
+          deleteChannel(user.newChannel);
+        }
       }
 
       if(user.isActive && !user.member.guild.owner){
         user.originalChannel.send(botReplies.timerEnded(user.userId));
         if(isBotRoleHigher({ member: user.member })) restoreNickname(user, user.member);
-        await removeChannelOverwrites(user);
-        deleteChannel(user.newChannel);
+
+        if(user.mode !== MODE_1) {
+          await removeChannelOverwrites(user);
+          deleteChannel(user.newChannel);
+        }
       }
+      
       if(user.isActive && user.member.guild.owner)user.originalChannel.send(botReplies.timerEnded(user.userId)); 
 
       usersArray.splice(i, 1);
@@ -71,7 +78,7 @@ async function ifStart(message, client){
 
     // const parsedTime = parseTime(timeoutLength);
     
-    const parsedTime = 60000;
+    const parsedTime = 15000;
 
     // pushed all original channels one by one into a new array
     const startChannels = message.guild.channels.cache.map(channel => channel);
