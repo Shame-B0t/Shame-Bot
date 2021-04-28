@@ -15,6 +15,7 @@ function timeCheck(message) {
     const endTime = focusedUser.endTime;
     const timeLeft = remainingTime(endTime);
     const timeLeftString = msToString(timeLeft);
+    // if time left < 1 min, show seconds
 
     //   reply to message with time left
     message.reply(`You have ${timeLeftString} left.`);
