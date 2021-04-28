@@ -14,7 +14,7 @@ const MODE_3 = 'lockdown';
 
 const usersArray = [];
 
-janitor(1000, () => cleanUp(usersArray));
+janitor(100, () => cleanUp(usersArray));
 
 // console.log(usersArray.map(user => user.nickname));
 // console.log(usersArray.map(user => user.guildChannels.map(channel => channel.name)));
@@ -43,7 +43,7 @@ async function ifStart(message, client){
 
     // const parsedTime = parseTime(timeoutLength);
     
-    const parsedTime = 15000;
+    const parsedTime = 5000;
 
     // pushed all original channels one by one into a new array
     const startChannels = message.guild.channels.cache.map(channel => channel);
@@ -63,62 +63,63 @@ async function ifStart(message, client){
       member: message.member,
       guildChannels: startChannels
     };
+    changeNickname(message, userObj);
 
-    // assign mode based on user choice
-    switch(mode){
-      case MODE_1:
+    // // assign mode based on user choice
+    // switch(mode){
+    //   case MODE_1:
 
-        // if(isBotRoleHigher(message)) 
-        changeNickname(message, userObj);
+    //     // if(isBotRoleHigher(message)) 
+    //     changeNickname(message, userObj);
 
-        break;
+    //     break;
         
-      case MODE_2:
-        if(isUserOwner(message)) {
-          message.reply(botReplies.userIsOwner());
-          return;
-        }
+    //   case MODE_2:
+    //     if(isUserOwner(message)) {
+    //       message.reply(botReplies.userIsOwner());
+    //       return;
+    //     }
        
-        // else if(!isBotRoleHigher(message)) {
-        //   message.reply(botReplies.tooPowerful());
-        //   return;
-        // }
+    //     // else if(!isBotRoleHigher(message)) {
+    //     //   message.reply(botReplies.tooPowerful());
+    //     //   return;
+    //     // }
 
-        else {
-          console.log('permissions cleared, continuing function');
-          changeNickname(message, userObj);
+    //     else {
+    //       console.log('permissions cleared, continuing function');
+    //       changeNickname(message, userObj);
   
-          // check admin roles and make overwrites
-          await makeChannelOverwrites(message, userObj);
+    //       // check admin roles and make overwrites
+    //       await makeChannelOverwrites(message, userObj);
           
-          await makeNewPrivateChannel(client, message, userObj);
+    //       await makeNewPrivateChannel(client, message, userObj);
 
-          // overwriteChannelPerms(message, parsedTime);
-          // makeNewPrivateChannel(client, message, userObj);
-        }
-        break;
+    //       // overwriteChannelPerms(message, parsedTime);
+    //       // makeNewPrivateChannel(client, message, userObj);
+    //     }
+    //     break;
       
-      case MODE_3: {
-        if(isUserOwner(message)) {
-          message.reply(botReplies.userIsOwner());
-          return;
-        }
+    //   case MODE_3: {
+    //     if(isUserOwner(message)) {
+    //       message.reply(botReplies.userIsOwner());
+    //       return;
+    //     }
 
-        // else if(!isBotRoleHigher(message)) {
-        //   message.reply(botReplies.tooPowerful());
-        //   return;
-        // }
-        console.log('permissions cleared, continuing function');
-        changeNickname(message, userObj);
+    //     // else if(!isBotRoleHigher(message)) {
+    //     //   message.reply(botReplies.tooPowerful());
+    //     //   return;
+    //     // }
+    //     console.log('permissions cleared, continuing function');
+    //     changeNickname(message, userObj);
 
-        makeChannelOverwrites(message, userObj)
-          .then(() => makeNewPrivateChannel(client, message, userObj));
-      }
-        break;
+    //     makeChannelOverwrites(message, userObj)
+    //       .then(() => makeNewPrivateChannel(client, message, userObj));
+    //   }
+    //     break;
 
-      default: message.reply(botReplies.invalidStatus()); 
-        return;
-    }
+    //   default: message.reply(botReplies.invalidStatus()); 
+    //     return;
+    // }
     
     message.reply(botReplies.confirmMode(mode));
     message.reply(botReplies.confirmTime(parsedTime));
