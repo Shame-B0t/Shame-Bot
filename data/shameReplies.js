@@ -1,5 +1,4 @@
 const shameRepliesArray = [
-  'shouldn"t you be focusing?',
   'tsk tsk. Back to focus time!',
   'excuse me bruv, aren\'t you supposed to be focusing!?!',
   'Oy! Shouldn\'t you be focusin mate?',
@@ -9,6 +8,8 @@ const shameRepliesArray = [
   '"always remember, your focus determines your reality" - Yoda ... so hup to it!!',
   'I\'m telling mum you\'re commenting where you shouldn\'t be',
   '\'s focus game is NOT 💯',
+  'time to get back to work, pal',
+  'why aren\'t you focusing??'
 ];
 
 const botReplies = {
@@ -49,8 +50,13 @@ const botReplies = {
     return `you will be restricted for ${time / 60000} mins`;
   },
 
-  autoReplyToSender(remainingTime){
-    return `Sorry, this user is in focus mode currently. Their focus time ends in ${remainingTime}`;
+  autoReplyToSender(user, remainingTime){
+    const nickname = user.nickname;
+    if(nickname) {
+      return `Sorry, ${nickname} is in focus mode currently. Their focus time ends in ${remainingTime}`;
+    } else if(!nickname) {
+      return `Sorry, ${user.username} is in focus mode currently. Their focus time ends in ${remainingTime}`;
+    }
   },
 
   timerEndedEarly(){
