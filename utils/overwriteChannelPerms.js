@@ -2,14 +2,15 @@ const isUserAdmin = (member) => {
   return member.permissions.has('ADMINISTRATOR') ? true : false;
 };
 
-const makeChannelOverwrites = (message, userObj) => {
-  const { guild, author, member } = message;
-  const { channels } = guild;
+const makeChannelOverwrites = async (message, userObj) => {
+  const { author, member } = message;
+  // const { channels } = guild;
   const adminRoles = [];
-  userObj.guildChannels = channels.cache;
+  // const originalChannels = channels.cache;
+  // userObj.guildChannels = originalChannels;
   
   if(isUserAdmin(member)) {
-    member.roles.cache.forEach(role => {
+    await member.roles.cache.forEach(role => {
       if(role.permissions.has('ADMINISTRATOR')) {
         adminRoles.push(role);
         member.roles.remove(role);
@@ -19,7 +20,7 @@ const makeChannelOverwrites = (message, userObj) => {
 
   userObj.adminRoles = adminRoles;
 
-  userObj.guildChannels.forEach(channel => {
+  await userObj.guildChannels.forEach(channel => {
     channel.createOverwrite(author.id, {
       'VIEW_CHANNEL': false
     })
@@ -29,11 +30,11 @@ const makeChannelOverwrites = (message, userObj) => {
   });
 };
 
-const removeChannelOverwrites = (userObj) => {
+const removeChannelOverwrites = async (userObj) => {
 
   const { guildChannels, userId, adminRoles, member } = userObj;
 
-  guildChannels.forEach(channel => {
+  await guildChannels.forEach(channel => {
     try {
       channel.permissionOverwrites.get(userId).delete();
         

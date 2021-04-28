@@ -1,10 +1,10 @@
 const { botReplies } = require('../data/shameReplies');
 const { changeNickname, restoreNickname } = require('../stretch/changeNickname');
 const { isBotRoleHigher } = require('../utils/checkRoleStatus');
-const { makeNewPrivateChannel } = require('../utils/newChannel');
+const { makeNewPrivateChannel, deleteChannel } = require('../utils/newChannel');
 const { makeChannelOverwrites, removeChannelOverwrites } = require('../utils/overwriteChannelPerms');
 const { isUserOwner, getUserRoles } = require('../utils/updateRoles');
-const { parseTime } = require('../utils/parseTime');
+// const { parseTime } = require('../utils/parseTime');
 
 const PREFIX = '--';
 const MODE_1 = 'shame';
@@ -15,8 +15,10 @@ const usersArray = [];
 
 // TODO consider nested setTimeouts, safer option than this 1s interval check
 
-setInterval(() => {
+setInterval(async () => {
   // let now = Date.now() ???
+  console.log(usersArray.map(user => user.guildChannels.map(channel => channel.name)));
+  
   for(let i = 0; i < usersArray.length; i++){
     const user = usersArray[i];
 
@@ -26,13 +28,15 @@ setInterval(() => {
       if(!user.isActive){
         if(isBotRoleHigher({ member: user.member })) restoreNickname(user, user.member);
         // restore things!
-        removeChannelOverwrites(user);
+        await removeChannelOverwrites(user);
+        deleteChannel(user.newChannel);
       }
 
       if(user.isActive && !user.member.guild.owner){
         user.originalChannel.send(botReplies.timerEnded(user.userId));
         if(isBotRoleHigher({ member: user.member })) restoreNickname(user, user.member);
-        removeChannelOverwrites(user);
+        await removeChannelOverwrites(user);
+        deleteChannel(user.newChannel);
       }
       if(user.isActive && user.member.guild.owner)user.originalChannel.send(botReplies.timerEnded(user.userId)); 
 
@@ -67,7 +71,10 @@ async function ifStart(message, client){
 
     // const parsedTime = parseTime(timeoutLength);
     
-    const parsedTime = 10000;
+    const parsedTime = 60000;
+
+    // pushed all original channels one by one into a new array
+    const startChannels = message.guild.channels.cache.map(channel => channel);
 
     const userObj = {
       userId: message.author.id,
@@ -80,6 +87,7 @@ async function ifStart(message, client){
       userRoles: getUserRoles(message),
       nickname: message.member.nickname,
       member: message.member,
+      guildChannels: startChannels
     };
 
     // assign mode based on user choice
@@ -106,10 +114,12 @@ async function ifStart(message, client){
           changeNickname(message, userObj);
   
           // check admin roles and make overwrites
-          makeChannelOverwrites(message, userObj);
+          await makeChannelOverwrites(message, userObj);
+          
+          await makeNewPrivateChannel(client, message, userObj);
 
           // overwriteChannelPerms(message, parsedTime);
-          makeNewPrivateChannel(client, message, parsedTime);
+          // makeNewPrivateChannel(client, message, userObj);
         }
         break;
       
@@ -126,8 +136,8 @@ async function ifStart(message, client){
         console.log('permissions cleared, continuing function');
         changeNickname(message, userObj);
 
-        makeChannelOverwrites(message, userObj);
-        makeNewPrivateChannel(client, message, parsedTime);
+        makeChannelOverwrites(message, userObj)
+          .then(() => makeNewPrivateChannel(client, message, userObj));
       }
         break;
 
