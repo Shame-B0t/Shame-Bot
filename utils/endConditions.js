@@ -20,7 +20,7 @@
 
 // ** needs to remove user from user array **
 
-// const { deleteChannel } = require('./newChannel');
+const { deleteChannel } = require('./newChannel');
 // const { removeChannelOverwrites } = require('./overwriteChannelPerms');
 const { restoreNickname } = require('../stretch/changeNickname');
 const { botReplies } = require('../data/shameReplies');
@@ -42,7 +42,7 @@ const cleanUp = async (usersArray) => {
         if(user.mode !== 'shame') {
           console.log('exited early');
           // await removeChannelOverwrites(user);
-          // deleteChannel(user.newChannel);
+          deleteChannel(user.newChannel);
         }
       }
 	
@@ -55,7 +55,7 @@ const cleanUp = async (usersArray) => {
         if(user.mode !== 'shame') {
           console.log('timer up');
           // await removeChannelOverwrites(user);
-          // deleteChannel(user.newChannel);
+          deleteChannel(user.newChannel);
         }
       }
 	
