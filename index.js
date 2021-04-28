@@ -31,3 +31,7 @@ client.on('message', (message) => {
   helpMessage(message); //--help
   randomMeme(message); // --meme
 });
+
+client.on('message', message => {
+  if(message.content.startsWith('--channels')) console.log(message.guild.channels.cache.map(channel => channel.name));
+});
