@@ -2,7 +2,7 @@ const { botReplies } = require('../data/shameReplies');
 const { changeNickname, restoreNickname } = require('../stretch/changeNickname');
 const { isBotRoleHigher } = require('../utils/checkRoleStatus');
 const { makeNewPrivateChannel } = require('../utils/newChannel');
-const { overwriteChannelPerms } = require('../utils/overwriteChannelPerms');
+const { makeChannelOverwrites, removeChannelOverwrites } = require('../utils/overwriteChannelPerms');
 const { isUserOwner, getUserRoles } = require('../utils/updateRoles');
 const { parseTime } = require('../utils/parseTime');
 
@@ -19,15 +19,20 @@ setInterval(() => {
   // let now = Date.now() ???
   for(let i = 0; i < usersArray.length; i++){
     const user = usersArray[i];
-    if(user.endTime < Date.now() || user.isActive === false){ 
+
+    // TODO maybe refactor here to divide up if blocks
+    if(user.endTime < Date.now() || !user.isActive){ 
 
       if(!user.isActive){
         if(isBotRoleHigher({ member: user.member })) restoreNickname(user, user.member);
+        // restore things!
+        removeChannelOverwrites(user);
       }
 
       if(user.isActive && !user.member.guild.owner){
         user.originalChannel.send(botReplies.timerEnded(user.userId));
         if(isBotRoleHigher({ member: user.member })) restoreNickname(user, user.member);
+        removeChannelOverwrites(user);
       }
       if(user.isActive && user.member.guild.owner)user.originalChannel.send(botReplies.timerEnded(user.userId)); 
 
@@ -60,9 +65,9 @@ async function ifStart(message, client){
     
     if(!timeRegex.test(timeoutLength)) return message.reply(botReplies.invalidTime(mode));
 
-    const parsedTime = parseTime(timeoutLength);
+    // const parsedTime = parseTime(timeoutLength);
     
-    // const parsedTime = 20000;
+    const parsedTime = 10000;
 
     const userObj = {
       userId: message.author.id,
@@ -100,7 +105,10 @@ async function ifStart(message, client){
           console.log('permissions cleared, continuing function');
           changeNickname(message, userObj);
   
-          overwriteChannelPerms(message, parsedTime);
+          // check admin roles and make overwrites
+          makeChannelOverwrites(message, userObj);
+
+          // overwriteChannelPerms(message, parsedTime);
           makeNewPrivateChannel(client, message, parsedTime);
         }
         break;
@@ -118,7 +126,7 @@ async function ifStart(message, client){
         console.log('permissions cleared, continuing function');
         changeNickname(message, userObj);
 
-        overwriteChannelPerms(message, parsedTime);
+        makeChannelOverwrites(message, userObj);
         makeNewPrivateChannel(client, message, parsedTime);
       }
         break;
