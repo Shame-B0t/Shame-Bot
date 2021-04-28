@@ -1,8 +1,8 @@
 const { botReplies } = require('../data/shameReplies');
-const { changeNickname, restoreNickname } = require('../stretch/changeNickname');
+const { changeNickname } = require('../stretch/changeNickname');
 // const { isBotRoleHigher } = require('../utils/checkRoleStatus');
-const { makeNewPrivateChannel, deleteChannel } = require('../utils/newChannel');
-const { makeChannelOverwrites, removeChannelOverwrites } = require('../utils/overwriteChannelPerms');
+const { makeNewPrivateChannel } = require('../utils/newChannel');
+const { makeChannelOverwrites } = require('../utils/overwriteChannelPerms');
 const { isUserOwner, getUserRoles } = require('../utils/updateRoles');
 // const { parseTime } = require('../utils/parseTime');
 const { cleanUp, janitor } = require('../utils/endConditions');
@@ -16,18 +16,9 @@ const usersArray = [];
 
 janitor(1000, () => cleanUp(usersArray));
 
-
-// TODO consider nested setTimeouts, safer option than this 1s interval check
-
-// setInterval(async () => {
 // console.log(usersArray.map(user => user.nickname));
 // console.log(usersArray.map(user => user.guildChannels.map(channel => channel.name)));
-
-  
-// }
 // console.log(usersArray.map(user => user.username));
-// }, 3000);
-
 
 async function ifStart(message, client){
 

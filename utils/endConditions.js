@@ -20,51 +20,51 @@
 
 // ** needs to remove user from user array **
 
-
 const { deleteChannel } = require('./newChannel');
 const { removeChannelOverwrites } = require('./overwriteChannelPerms');
 const { restoreNickname } = require('../stretch/changeNickname');
 const { botReplies } = require('../data/shameReplies');
 
 const cleanUp = async (usersArray) => {
-  console.log(usersArray.map(user => user.nickname));
+//   console.log(usersArray.map(user => user.nickname));
+
   for(let i = 0; i < usersArray.length; i++){
     const user = usersArray[i];
 	
     // TODO maybe refactor here to divide up if blocks
     if(user.endTime < Date.now() || !user.isActive){ 
 	
-		  if(!user.isActive){
+      if(!user.isActive){
         // if(isBotRoleHigher({ member: user.member }))
         restoreNickname(user, user.member);
         // restore things!
 	
         if(user.mode !== 'shame') {
-			  await removeChannelOverwrites(user);
-			  deleteChannel(user.newChannel);
+          await removeChannelOverwrites(user);
+          deleteChannel(user.newChannel);
         }
-		  }
+      }
 	
-		  if(user.isActive && !user.member.guild.owner){
+      if(user.isActive && !user.member.guild.owner){
         user.originalChannel.send(botReplies.timerEnded(user.userId));
 			
         // if(isBotRoleHigher({ member: user.member })) 
         restoreNickname(user, user.member);
 	
         if(user.mode !== 'shame') {
-			  await removeChannelOverwrites(user);
-			  deleteChannel(user.newChannel);
+          await removeChannelOverwrites(user);
+          deleteChannel(user.newChannel);
         }
-		  }
+      }
 	
-		  if(user.isActive && user.member.guild.owner)user.originalChannel.send(botReplies.timerEnded(user.userId)); 
+      if(user.isActive && user.member.guild.owner)user.originalChannel.send(botReplies.timerEnded(user.userId)); 
 	
-		  usersArray.splice(i, 1);
-		  i--;
-	
+      usersArray.splice(i, 1);
+      i--;
     }
   }
 };
+
 // makes a stable cleanup loop - waits for itself to finish before running again
 const janitor = (timeout, callback) => {
   setTimeout(async () => {
