@@ -4,6 +4,7 @@ const { isBotRoleHigher } = require('../utils/checkRoleStatus');
 const { makeNewPrivateChannel } = require('../utils/newChannel');
 const { overwriteChannelPerms } = require('../utils/overwriteChannelPerms');
 const { isUserOwner, getUserRoles } = require('../utils/updateRoles');
+const { parseTime } = require('../utils/parseTime');
 
 const PREFIX = '--';
 const MODE_1 = 'shame';
@@ -20,14 +21,19 @@ setInterval(() => {
     const user = usersArray[i];
     if(user.endTime < Date.now() || user.isActive === false){ 
 
-      usersArray.splice(i, 1);
-      i--;
+      if(!user.isActive){
+        if(isBotRoleHigher({ member: user.member })) restoreNickname(user, user.member);
+      }
 
       if(user.isActive && !user.member.guild.owner){
         user.originalChannel.send(botReplies.timerEnded(user.userId));
         if(isBotRoleHigher({ member: user.member })) restoreNickname(user, user.member);
       }
       if(user.isActive && user.member.guild.owner)user.originalChannel.send(botReplies.timerEnded(user.userId)); 
+
+      usersArray.splice(i, 1);
+      i--;
+
     }
   }
   // console.log(usersArray.map(user => user.username));
@@ -54,9 +60,9 @@ async function ifStart(message, client){
     
     if(!timeRegex.test(timeoutLength)) return message.reply(botReplies.invalidTime(mode));
 
-    // const parsedTime = parseTime(timeoutLength);
+    const parsedTime = parseTime(timeoutLength);
     
-    const parsedTime = 20000;
+    // const parsedTime = 20000;
 
     const userObj = {
       userId: message.author.id,
@@ -94,7 +100,7 @@ async function ifStart(message, client){
           console.log('permissions cleared, continuing function');
           changeNickname(message, userObj);
   
-          overwriteChannelPerms(message);
+          overwriteChannelPerms(message, parsedTime);
           makeNewPrivateChannel(client, message, parsedTime);
         }
         break;
@@ -112,7 +118,7 @@ async function ifStart(message, client){
         console.log('permissions cleared, continuing function');
         changeNickname(message, userObj);
 
-        overwriteChannelPerms(message);
+        overwriteChannelPerms(message, parsedTime);
         makeNewPrivateChannel(client, message, parsedTime);
       }
         break;
