@@ -1,10 +1,11 @@
 const { botReplies } = require('../data/shameReplies');
-const { changeNickname, restoreNickname } = require('../stretch/changeNickname');
-const { isBotRoleHigher } = require('../utils/checkRoleStatus');
+const { changeNickname } = require('../stretch/changeNickname');
+// const { isBotRoleHigher } = require('../utils/checkRoleStatus');
 const { makeNewPrivateChannel } = require('../utils/newChannel');
-const { overwriteChannelPerms } = require('../utils/overwriteChannelPerms');
+const { makeChannelOverwrites } = require('../utils/overwriteChannelPerms');
 const { isUserOwner, getUserRoles } = require('../utils/updateRoles');
-const { parseTime } = require('../utils/parseTime');
+// const { parseTime } = require('../utils/parseTime');
+const { cleanUp, janitor } = require('../utils/endConditions');
 
 const PREFIX = '--';
 const MODE_1 = 'shame';
@@ -13,31 +14,11 @@ const MODE_3 = 'lockdown';
 
 const usersArray = [];
 
-// TODO consider nested setTimeouts, safer option than this 1s interval check
+janitor(100, () => cleanUp(usersArray));
 
-setInterval(() => {
-  // let now = Date.now() ???
-  for(let i = 0; i < usersArray.length; i++){
-    const user = usersArray[i];
-    if(user.endTime < Date.now() || user.isActive === false){ 
-
-      if(!user.isActive){
-        if(isBotRoleHigher({ member: user.member })) restoreNickname(user, user.member);
-      }
-
-      if(user.isActive && !user.member.guild.owner){
-        user.originalChannel.send(botReplies.timerEnded(user.userId));
-        if(isBotRoleHigher({ member: user.member })) restoreNickname(user, user.member);
-      }
-      if(user.isActive && user.member.guild.owner)user.originalChannel.send(botReplies.timerEnded(user.userId)); 
-
-      usersArray.splice(i, 1);
-      i--;
-
-    }
-  }
-  // console.log(usersArray.map(user => user.username));
-}, 1000);
+// console.log(usersArray.map(user => user.nickname));
+// console.log(usersArray.map(user => user.guildChannels.map(channel => channel.name)));
+// console.log(usersArray.map(user => user.username));
 
 async function ifStart(message, client){
 
@@ -60,9 +41,18 @@ async function ifStart(message, client){
     
     if(!timeRegex.test(timeoutLength)) return message.reply(botReplies.invalidTime(mode));
 
-    const parsedTime = parseTime(timeoutLength);
+    // const parsedTime = parseTime(timeoutLength);
     
-    // const parsedTime = 20000;
+    const parsedTime = 5000;
+
+    // pushed all original channels one by one into a new array
+    const startChannels = message.guild.channels.cache.filter(channel => !channel.name.endsWith('focus')).map(channel => channel);
+
+    const startAdminRoles = message.member.roles.cache.filter(role => 
+      role.permissions.has('ADMINISTRATOR')
+    );
+
+    const startNickname = message.member.nickname;
 
     const userObj = {
       userId: message.author.id,
@@ -73,56 +63,61 @@ async function ifStart(message, client){
       endTime: Date.now() + parsedTime,
       originalChannel: message.channel,
       userRoles: getUserRoles(message),
-      nickname: message.member.nickname,
+      nickname: startNickname,
       member: message.member,
+      guildChannels: startChannels,
+      adminRoles: startAdminRoles
     };
+    changeNickname(message, userObj);
 
-    // assign mode based on user choice
+    // // assign mode based on user choice
     switch(mode){
       case MODE_1:
 
-        if(isBotRoleHigher(message)) changeNickname(message, userObj);
-
+        // if(isBotRoleHigher(message)
+        console.log('shame mode');
         break;
         
-      case MODE_2:
+      case MODE_2: {
         if(isUserOwner(message)) {
           message.reply(botReplies.userIsOwner());
           return;
         }
        
-        else if(!isBotRoleHigher(message)) {
-          message.reply(botReplies.tooPowerful());
-          return;
-        }
+        // // else if(!isBotRoleHigher(message)) {
+        // //   message.reply(botReplies.tooPowerful());
+        // //   return;
+        // // }
 
-        else {
-          console.log('permissions cleared, continuing function');
-          changeNickname(message, userObj);
+        // else {
+        //   console.log('permissions cleared, continuing function');
   
-          overwriteChannelPerms(message, parsedTime);
-          makeNewPrivateChannel(client, message, parsedTime);
-        }
+        // check admin roles and make overwrites
+        await makeChannelOverwrites(message, userObj);
+          
+        await makeNewPrivateChannel(client, message, userObj);
+
         break;
+      }
       
-      case MODE_3: {
+      case MODE_3: 
+      {
         if(isUserOwner(message)) {
           message.reply(botReplies.userIsOwner());
           return;
         }
+        
+        //   // else if(!isBotRoleHigher(message)) {
+        //   //   message.reply(botReplies.tooPowerful());
+        //   //   return;
+        //   // }
+        //   console.log('permissions cleared, continuing function');
 
-        else if(!isBotRoleHigher(message)) {
-          message.reply(botReplies.tooPowerful());
-          return;
-        }
-        console.log('permissions cleared, continuing function');
-        changeNickname(message, userObj);
-
-        overwriteChannelPerms(message, parsedTime);
-        makeNewPrivateChannel(client, message, parsedTime);
-      }
+        await makeChannelOverwrites(message, userObj);
+        await makeNewPrivateChannel(client, message, userObj);
+        
         break;
-
+      }
       default: message.reply(botReplies.invalidStatus()); 
         return;
     }
