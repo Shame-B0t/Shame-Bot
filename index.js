@@ -6,7 +6,7 @@ const { ifStart } = require('./commands/start');
 const { helpMessage } = require('./commands/help');
 const { ifExit } = require('./commands/stop');
 const { autoReply } = require('./utils/autoReply');
-const { randomMeme } = require('./stretch/randomMeme');
+const { randomMeme } = require('./utils/randomMeme');
 const { publiclyShame } = require('./utils/publiclyShame');
 const { timeCheck } = require('./commands/time');
 
@@ -30,7 +30,3 @@ client.on('message', (message) => {
   helpMessage(message); //--help
   randomMeme(message); // --meme
 });
-
-// client.on('message', message => {
-//   if(message.content.startsWith('--channels')) console.log(message.guild.channels.cache.map(channel => channel.name));
-// });

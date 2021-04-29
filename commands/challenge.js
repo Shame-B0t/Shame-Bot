@@ -1,7 +1,6 @@
 const { checkChallenge } = require('../utils/timeInterrupt');
 const { usersArray }  = require('./start');
 
-
 function ifChallenge(message){
   if(message.author.bot) return;
   if(message.content.startsWith('--challenge')){

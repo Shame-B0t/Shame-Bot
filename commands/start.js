@@ -1,5 +1,9 @@
 const { botReplies } = require('../data/shameReplies');
+<<<<<<< HEAD
 const { changeNickname } = require('../stretch/changeNickname');
+=======
+const { changeNickname } = require('../utils/changeNickname');
+>>>>>>> 30a9884c6d41cbb54b1bf2620a5a7b72624e3fa3
 // const { isBotRoleHigher } = require('../utils/checkRoleStatus');
 const { makeNewPrivateChannel } = require('../utils/newChannel');
 const { makeChannelOverwrites } = require('../utils/overwriteChannelPerms');
@@ -15,10 +19,6 @@ const MODE_3 = 'lockdown';
 const usersArray = [];
 
 janitor(100, () => cleanUp(usersArray));
-
-// console.log(usersArray.map(user => user.nickname));
-// console.log(usersArray.map(user => user.guildChannels.map(channel => channel.name)));
-// console.log(usersArray.map(user => user.username));
 
 async function ifStart(message, client){
 
@@ -75,7 +75,6 @@ async function ifStart(message, client){
       case MODE_1:
 
         // if(isBotRoleHigher(message)
-        console.log('shame mode');
         break;
         
       case MODE_2: {
@@ -83,14 +82,10 @@ async function ifStart(message, client){
           message.reply(botReplies.userIsOwner());
           return;
         }
-       
         // // else if(!isBotRoleHigher(message)) {
         // //   message.reply(botReplies.tooPowerful());
         // //   return;
         // // }
-
-        // else {
-        //   console.log('permissions cleared, continuing function');
   
         // check admin roles and make overwrites
         await makeChannelOverwrites(message, userObj);
@@ -122,11 +117,9 @@ async function ifStart(message, client){
         return;
     }
     
-    message.reply(botReplies.confirmMode(mode));
-    message.reply(botReplies.confirmTime(parsedTime));
+    message.reply(botReplies.confirmFocusMode(mode, parsedTime));
 
     usersArray.push(userObj);
-   
   }
 
 }
