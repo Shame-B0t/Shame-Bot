@@ -22,8 +22,8 @@ function pluralize(number, unitOfTime) {
   else return `${number} ${unitOfTime}s`;
 }
 
+// convert into minutes/hours "HH hour(s), MM minutes" example: 4500000 ms
 function msToString(timeInMs) {
-  // convert into minutes/hours "HH hour(s), MM minutes" example: 4500000 ms
   const timeInHours = timeInMs / 1000 / 60 / 60; // 1.25h
   const roundedHours = Math.floor(timeInHours); // 1hr
   const finalHours = pluralize(roundedHours, 'hour'); // '1 hour'

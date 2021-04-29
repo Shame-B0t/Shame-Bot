@@ -14,7 +14,6 @@ const cleanUp = async (usersArray) => {
         restoreNickname(user, user.member);
 	
         if(user.mode !== 'shame') {
-          console.log('exited early');
           removeChannelOverwrites(user);
           deleteChannel(user.newChannel);
         } else {
@@ -28,13 +27,8 @@ const cleanUp = async (usersArray) => {
         user.originalChannel.send(botReplies.timerEnded(user.userId));
 			
         restoreNickname(user, user.member);
-        if(user.userSetTimer){
-          user.botTimerMessage.delete();
-
-        }
 	
         if(user.mode !== 'shame') {
-          console.log('timer up');
           removeChannelOverwrites(user);
           deleteChannel(user.newChannel);
         } else {

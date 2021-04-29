@@ -3,8 +3,6 @@ const { msToString, remainingTime } = require('./parseTime');
 const { usersArray } = require('../commands/start');
 const { botReplies } = require('../data/shameReplies');
 
-
-// consider passing usersArray in as arg to function
 function autoReply(message) {
   if(!message.mentions.users || message.author.bot) return;
   
