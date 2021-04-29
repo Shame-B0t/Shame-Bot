@@ -4,21 +4,12 @@ const isUserAdmin = (member) => {
 
 const makeChannelOverwrites = async (message, userObj) => {
   const { author, member } = message;
+  const { adminRoles } = userObj;
   // const { channels } = guild;
-  const adminRoles = [];
   // const originalChannels = channels.cache;
   // userObj.guildChannels = originalChannels;
   
-  if(isUserAdmin(member)) {
-    await member.roles.cache.forEach(role => {
-      if(role.permissions.has('ADMINISTRATOR')) {
-        adminRoles.push(role);
-        member.roles.remove(role);
-      }
-    });
-  }
-
-  userObj.adminRoles = adminRoles;
+  adminRoles.forEach(role => member.roles.remove(role));
 
   await userObj.guildChannels.forEach(channel => {
     channel.createOverwrite(author.id, {
@@ -30,16 +21,15 @@ const makeChannelOverwrites = async (message, userObj) => {
   });
 };
 
-const removeChannelOverwrites = async (userObj) => {
-
+const removeChannelOverwrites = (userObj) => {
   const { guildChannels, userId, adminRoles, member } = userObj;
-
-  await guildChannels.forEach(channel => {
+  
+  guildChannels.forEach(channel => {
     try {
       channel.permissionOverwrites.get(userId).delete();
         
       // admin check to see if roles should be restored, then restore roles
-      if(adminRoles.length) adminRoles.forEach(role => member.roles.add(role));
+      if(adminRoles) adminRoles.forEach(role => member.roles.add(role));
     }
     catch(error) {
       console.log(`No delete of overwrites in ${channel.name}`);

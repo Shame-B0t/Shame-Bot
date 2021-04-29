@@ -43,10 +43,14 @@ async function ifStart(message, client){
 
     // const parsedTime = parseTime(timeoutLength);
     
-    const parsedTime = 15000;
+    const parsedTime = 5000;
 
     // pushed all original channels one by one into a new array
-    const startChannels = message.guild.channels.cache.filter(channel => channel.name.endsWith('focus')).map(channel => channel);
+    const startChannels = message.guild.channels.cache.filter(channel => !channel.name.endsWith('focus')).map(channel => channel);
+
+    const startAdminRoles = message.member.roles.cache.filter(role => 
+      role.permissions.has('ADMINISTRATOR')
+    );
 
     const startNickname = message.member.nickname;
 
@@ -61,7 +65,8 @@ async function ifStart(message, client){
       userRoles: getUserRoles(message),
       nickname: startNickname,
       member: message.member,
-      guildChannels: startChannels
+      guildChannels: startChannels,
+      adminRoles: startAdminRoles
     };
     changeNickname(message, userObj);
 
@@ -69,12 +74,11 @@ async function ifStart(message, client){
     switch(mode){
       case MODE_1:
 
-        // if(isBotRoleHigher(message)) 
-        // changeNickname(message, userObj);
+        // if(isBotRoleHigher(message)
         console.log('shame mode');
         break;
         
-      case MODE_2:
+      case MODE_2: {
         if(isUserOwner(message)) {
           message.reply(botReplies.userIsOwner());
           return;
@@ -87,17 +91,14 @@ async function ifStart(message, client){
 
         // else {
         //   console.log('permissions cleared, continuing function');
-        //   changeNickname(message, userObj);
   
         // check admin roles and make overwrites
-        // await makeChannelOverwrites(message, userObj);
+        await makeChannelOverwrites(message, userObj);
           
         await makeNewPrivateChannel(client, message, userObj);
 
-        // overwriteChannelPerms(message, parsedTime);
-        // makeNewPrivateChannel(client, message, userObj);
-        // }
         break;
+      }
       
       case MODE_3: 
       {
@@ -111,11 +112,8 @@ async function ifStart(message, client){
         //   //   return;
         //   // }
         //   console.log('permissions cleared, continuing function');
-        //   changeNickname(message, userObj);
 
-        //   makeChannelOverwrites(message, userObj)
-        //     .then(() => makeNewPrivateChannel(client, message, userObj));
-        // }
+        await makeChannelOverwrites(message, userObj);
         await makeNewPrivateChannel(client, message, userObj);
         
         break;
@@ -123,7 +121,6 @@ async function ifStart(message, client){
       default: message.reply(botReplies.invalidStatus()); 
         return;
     }
-    console.log(message.author.username);
     
     message.reply(botReplies.confirmMode(mode));
     message.reply(botReplies.confirmTime(parsedTime));
