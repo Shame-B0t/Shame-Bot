@@ -1,5 +1,5 @@
 const { botReplies } = require('../data/shameReplies');
-const { changeNickname } = require('../stretch/changeNickname');
+const { changeNickname } = require('../utils/changeNickname');
 // const { isBotRoleHigher } = require('../utils/checkRoleStatus');
 const { makeNewPrivateChannel } = require('../utils/newChannel');
 const { makeChannelOverwrites } = require('../utils/overwriteChannelPerms');
@@ -16,13 +16,9 @@ const usersArray = [];
 
 janitor(100, () => cleanUp(usersArray));
 
-// console.log(usersArray.map(user => user.nickname));
-// console.log(usersArray.map(user => user.guildChannels.map(channel => channel.name)));
-// console.log(usersArray.map(user => user.username));
-
 async function ifStart(message, client){
 
-  if(message.content.startsWith(PREFIX + 'focus')){
+  if(message.content.toLowerCase().startsWith(PREFIX + 'focus')){
     // checking to see if user is already tracked/focusing
     for(let i = 0; i < usersArray.length; i++) {
       const user = usersArray[i];
@@ -35,7 +31,7 @@ async function ifStart(message, client){
     const timeRegex = /^([0-9]|[1-9][0-9])([0-9]|[1-9][0-9]):([0-9]|[1-9][0-9])([0-9]|[1-9][0-9])$/;
 
     // pull mode and time args off message
-    const [mode, timeoutLength] = message.content.split(' ').slice(1);
+    const [mode, timeoutLength] = message.content.toLowerCase().split(' ').slice(1);
 
     if(mode !== MODE_1 && mode !== MODE_2 && mode !== MODE_3) return message.reply(botReplies.invalidStatus());
     
@@ -68,6 +64,7 @@ async function ifStart(message, client){
       guildChannels: startChannels,
       adminRoles: startAdminRoles
     };
+    
     changeNickname(message, userObj);
 
     // // assign mode based on user choice
@@ -75,7 +72,6 @@ async function ifStart(message, client){
       case MODE_1:
 
         // if(isBotRoleHigher(message)
-        console.log('shame mode');
         break;
         
       case MODE_2: {
@@ -83,14 +79,10 @@ async function ifStart(message, client){
           message.reply(botReplies.userIsOwner());
           return;
         }
-       
         // // else if(!isBotRoleHigher(message)) {
         // //   message.reply(botReplies.tooPowerful());
         // //   return;
         // // }
-
-        // else {
-        //   console.log('permissions cleared, continuing function');
   
         // check admin roles and make overwrites
         await makeChannelOverwrites(message, userObj);
@@ -122,11 +114,9 @@ async function ifStart(message, client){
         return;
     }
     
-    message.reply(botReplies.confirmMode(mode));
-    message.reply(botReplies.confirmTime(parsedTime));
+    message.reply(botReplies.confirmFocusMode(mode, parsedTime));
 
     usersArray.push(userObj);
-   
   }
 
 }

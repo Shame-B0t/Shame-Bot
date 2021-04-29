@@ -1,4 +1,5 @@
-const isBotRoleHigher = ({ member }) => {
+const isBotRoleHigher = (message) => {
+  const { member } = message;
   return member.manageable;
 };
 

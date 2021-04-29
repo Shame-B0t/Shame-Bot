@@ -9,7 +9,6 @@ function changeNickname(message, user){
     return;
   }
 
-  
   if(hasNickname(user)){
     const shortname = user.nickname;
     let abbreviatedNickname = user.nickname;
@@ -19,7 +18,6 @@ function changeNickname(message, user){
     message.member.setNickname(`${abbreviatedNickname} is in a focus mode`);
     return;
   } 
-
   message.member.setNickname(`${user.username} is in a focus mode`);
 
 }
