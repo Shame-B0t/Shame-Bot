@@ -49,12 +49,8 @@ const botReplies = {
 
   // Update to show remaining time in hours/minutes/seconds where applicable
   autoReplyToSender(user, remainingTime){
-    const nickname = user.nickname;
-    if(nickname) {
-      return `Sorry, ${nickname} is in focus mode currently. Their focus time ends in ${remainingTime}`;
-    } else if(!nickname) {
-      return `Sorry, ${user.username} is in focus mode currently. Their focus time ends in ${remainingTime}`;
-    }
+
+    return `Sorry, ${user.nickname || user.username} is in focus mode currently. Their focus time ends in ${remainingTime}`;
   },
 
   timerEndedEarly(){
@@ -83,6 +79,10 @@ const botReplies = {
 
   countdownTimer(){
     return 'you already have a countdown timer started';
+  },
+
+  noChallenge(){
+    return 'you are not in a mode which requires a challenge before exiting. To end your session early enter command --exit';
   }
 };
 
