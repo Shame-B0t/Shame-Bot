@@ -1,33 +1,9 @@
-// needs array of user objects
-// each user object holds things that we pulled off of the original message
-
-// needs to know end conditions
-// --exit
-// timer runs out
-// completed challenge
-
-// needs to know if user ended early or if timer ran out ??? we may be able to isolate this out
-
-// FOR EACH USER as they hit end conditions:
-// needs to restore user's nickname to original condition
-	
-// needs to know which mode a user is in
-// if not shame mode
-// restore channel permissions
-// delete focus channel
-
-// needs to send a timer is up message
-
-// ** needs to remove user from user array **
-
 const { deleteChannel } = require('./newChannel');
 const { removeChannelOverwrites } = require('./overwriteChannelPerms');
-const { restoreNickname } = require('../stretch/changeNickname');
+const { restoreNickname } = require('../utils/changeNickname');
 const { botReplies } = require('../data/shameReplies');
 
 const cleanUp = async (usersArray) => {
-//   console.log(usersArray.map(user => user.nickname));
-
   for(let i = 0; i < usersArray.length; i++){
     const user = usersArray[i];
 	
@@ -35,8 +11,8 @@ const cleanUp = async (usersArray) => {
     if(user.endTime < Date.now() || !user.isActive){ 
 	
       if(!user.isActive){
-        // if(isBotRoleHigher({ member: user.member }))
         restoreNickname(user, user.member);
+
 
         if(user.userSetTimer){
           user.botTimerMessage.delete();
@@ -53,7 +29,6 @@ const cleanUp = async (usersArray) => {
       if(user.isActive && !user.member.guild.owner){
         user.originalChannel.send(botReplies.timerEnded(user.userId));
 			
-        // if(isBotRoleHigher({ member: user.member })) 
         restoreNickname(user, user.member);
         if(user.userSetTimer){
           user.botTimerMessage.delete();

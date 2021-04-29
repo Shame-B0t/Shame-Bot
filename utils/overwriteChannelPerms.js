@@ -1,13 +1,6 @@
-// const isUserAdmin = (member) => {
-//   return member.permissions.has('ADMINISTRATOR') ? true : false;
-// };
-
 const makeChannelOverwrites = async (message, userObj) => {
   const { author, member } = message;
   const { adminRoles } = userObj;
-  // const { channels } = guild;
-  // const originalChannels = channels.cache;
-  // userObj.guildChannels = originalChannels;
   
   adminRoles.forEach(role => member.roles.remove(role));
 
@@ -36,34 +29,5 @@ const removeChannelOverwrites = (userObj) => {
     }
   });
 };
-
-
-
-// const overwriteChannelPerms = ({ guild, author, member }, timeOut) => {
-//   const { channels } = guild;
-//   const originalChannels = channels.cache;
-  
-//   if(isUserAdmin(member)) {
-//     const adminRoles = [];
-    
-//     member.roles.cache.forEach(role => {
-//       if(role.permissions.has('ADMINISTRATOR')) {
-//         adminRoles.push(role);
-//         member.roles.remove(role);
-//       }
-//     });
-    
-//     makeChannelOverwrites(originalChannels, author);
-
-//     removeChannelOverwrites(originalChannels, author, member, adminRoles, timeOut);
-
-    
-//   }
-//   else {
-//     // non-admin block works as intended
-//     makeChannelOverwrites(originalChannels, author);
-//     removeChannelOverwrites(originalChannels, author, member, [], timeOut);
-//   }
-// };
 
 module.exports = { makeChannelOverwrites, removeChannelOverwrites };
