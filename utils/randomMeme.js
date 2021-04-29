@@ -1,3 +1,5 @@
+const { randomArrayIndex } = require('./publiclyShame');
+
 const images = [
   'https://i.pinimg.com/originals/3c/fe/69/3cfe69a086c4574c607dfaaa988e26fa.jpg', 
   'https://memegenerator.net/img/instances/54937116/i-will-find-you-and-i-will-shame-you.jpg', 
@@ -14,14 +16,10 @@ const images = [
   'https://giphy.com/gifs/bill-murray-groundhog-day-gif-14saZ73y5Ik5uE'
 ];
 
-function randomMemeIndex(array) {
-  return Math.floor(Math.random() * array.length);
-}
-
 function randomMeme(message) {
   if(message.author.bot || !message.content.toLowerCase() === '--meme') return;
 
-  const i = randomMemeIndex(images);
+  const i = randomArrayIndex(images);
 
   if(message.content.toLowerCase().includes('--meme')) message.channel.send(images[i]);
 }

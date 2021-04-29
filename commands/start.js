@@ -2,8 +2,8 @@ const { botReplies } = require('../data/shameReplies');
 const { changeNickname } = require('../utils/changeNickname');
 const { makeNewPrivateChannel } = require('../utils/newChannel');
 const { makeChannelOverwrites } = require('../utils/overwriteChannelPerms');
-const { isUserOwner } = require('../utils/updateRoles');
-const { parseTime } = require('../utils/parseTime');
+const { isUserOwner } = require('../utils/checkOwner');
+// const { parseTime } = require('../utils/parseTime');
 const { cleanUp, janitor } = require('../utils/endConditions');
 
 const PREFIX = '--';

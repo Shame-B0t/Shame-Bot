@@ -79,6 +79,10 @@ const botReplies = {
 
   countdownTimer(){
     return 'you already have a countdown timer started';
+  },
+
+  noChallenge(){
+    return 'you are not in a mode which requires a challenge before exiting. To end your session early enter command --exit';
   }
 };
 

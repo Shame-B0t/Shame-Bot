@@ -7,7 +7,6 @@ const cleanUp = async (usersArray) => {
   for(let i = 0; i < usersArray.length; i++){
     const user = usersArray[i];
 	
-    // TODO maybe refactor here to divide up if blocks
     if(user.endTime < Date.now() || !user.isActive){ 
 	
       restoreNickname(user, user.member);
@@ -23,7 +22,7 @@ const cleanUp = async (usersArray) => {
 	
       if(user.isActive){
         setTimeout(() => {
-          
+
           user.originalChannel.send(botReplies.timerEnded(user.userId));
           
         }, 1000);

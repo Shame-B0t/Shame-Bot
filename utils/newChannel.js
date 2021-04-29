@@ -16,9 +16,6 @@ const makeNewPrivateChannel = (client, message, userObj) => {
   const { guild, author } = message;
   const { channels } = guild;
   
-  // maybe add in a react here on the original message that indicates it's been heard? in case the user misses the mention from the new channel? A lil ear emoji? Some studious person? A speech bubble? A telephone?
-
-  // TODO add role permission for the newly created role, possibly
   channels.create(`${ author.username }-focus`, {
     type: 'text',
     permissionOverwrites: [{
