@@ -16,7 +16,6 @@ client.once('ready', () => {
   client.user.setActivity('over you | type --help', { type: 'WATCHING' })
     .then(presence => console.log(`Activity set to ${presence.activities[0].name}`))
     .catch(console.error);
-
 });
 
 client.login(process.env.TOKEN);
@@ -32,3 +31,7 @@ client.on('message', (message) => {
   helpMessageFull(message); //--helpall
   randomMeme(message); // --meme
 });
+
+// client.on('message', message => {
+//   if(message.content.startsWith('--channels')) console.log(message.guild.channels.cache.map(channel => channel.name));
+// });
