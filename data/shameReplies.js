@@ -3,23 +3,23 @@ const shameRepliesArray = [
   'excuse me bruv, aren\'t you supposed to be focusing!?!',
   'Oy! Shouldn\'t you be focusin mate?',
   'according to my calculations, you are currently in focus mode and shouldn\'t be posting any comments!!',
-  'is posting comments when they SHOULD NOT BE',
+  'you\'re posting comments when you SHOULD NOT BE',
   'back to work, buddy',
   '"always remember, your focus determines your reality" - Yoda ... so hup to it!!',
-  'I\'m telling mum you\'re commenting where you shouldn\'t be',
-  '\'s focus game is NOT 💯',
+  'I\'m telling mum you\'re commenting where you shouldn\'t be!',
+  'your focus game is NOT 💯',
   'time to get back to work, pal',
-  'why aren\'t you focusing??'
+  'why aren\'t you focusing??',
 ];
 
 const botReplies = {
 
   timerEnded(userId){
-    return `<@${userId}> your timer is up`;
+    return `<@${userId}> your focus time is up`;
   },
 
   alreadyInAMode(){
-    return 'you are already in a productivity mode, enter --exit to end your session';
+    return 'you are already in a focus mode, enter --exit to end your session';
   },
 
   invalidStatus(){
@@ -31,25 +31,19 @@ const botReplies = {
   },
 
   userIsOwner(){
-    return 'Sorry, server owners cannot use the bot in isolation or lockdown modes.';
+    return 'Sorry, server owners cannot use the bot in isolation or lockdown modes';
   },
 
   changeOwnerNickname(){
-    return 'Sorry, Shame-b02 cannot change a server owner\'s nickname, but other functionality in shame mode should work as expected.';
+    return 'Sorry, Shame-b02 cannot change a server owner\'s nickname, but other functionality in shame mode should work as expected';
   },
 
-  createRoleString(){
-    return 'test-user role';
+  // Update to show remaining time in hours/minutes/seconds where applicable
+  confirmFocusMode(mode, time){
+    return `You are now in ${mode} mode. You will be restricted for ${time / 60000} minutes`;
   },
 
-  confirmMode(mode){
-    return `You are now in ${mode} mode.`;
-  },
-
-  confirmTime(time){
-    return `you will be restricted for ${time / 60000} mins`;
-  },
-
+  // Update to show remaining time in hours/minutes/seconds where applicable
   autoReplyToSender(user, remainingTime){
     const nickname = user.nickname;
     if(nickname) {
@@ -60,7 +54,7 @@ const botReplies = {
   },
 
   timerEndedEarly(){
-    return 'you ended your timer early, your roles have been restored';
+    return 'you ended your focus time early, you have been returned to normal';
   },
 
   welcomeToChannel(authorId){
@@ -68,11 +62,11 @@ const botReplies = {
   },
 
   serveChallenge(userId, challengeParam){
-    return `Nice try <@${userId}>, you tried to end your timer early but to escape lockdown early you must first complete a challenge. Begin your reponse with --challenge and type a ${challengeParam} word essay on why staying focused is important for accomplishing your goals.`;
+    return `Nice try <@${userId}>, you tried to end your timer early but to escape lockdown mode early you must first complete a challenge. Begin your response with --challenge and type a ${challengeParam} word essay on why staying focused is important for accomplishing your goals.`;
   },
 
   challengeCompleted(){
-    return 'challenge completed, your roles have been restored';
+    return 'challenge completed, you have been returned to normal';
   },
 
   challengeIncomplete(response, challengeParam){
@@ -80,7 +74,7 @@ const botReplies = {
   },
 
   tooPowerful(){
-    return 'Nope, sorry, you\'re too powerful for me. Try `shame` mode, or ask someone with administrative priveliges to move my role up in the hierarchy';
+    return 'Nope, sorry, you\'re too powerful for me. Try `shame` mode, or ask someone with administrative privileges to move my role up in the hierarchy';
   }
 };
 
