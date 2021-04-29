@@ -24,13 +24,15 @@ function helpMessage(message) {
 
     .addFields(
       { name: 'EXIT anytime by entering the command:', value: '`--exit`' },
-      { name: 'Check the TIME REMAINING by entering the command:', value: '`--time`' }
+      { name: 'Check the TIME REMAINING by entering the command:', value: '`--time`' },
+      { name: 'Activate a COUNTDOWN of time remaining by entering the command:', value: '`--countdown`' }
+
     )
     .addField('\u200B', '*For a full list of instructions and "strictness level descriptions", enter* `--helpall`')
 
     .setFooter('have a productive day!', 'https://avatars.githubusercontent.com/u/83033726?s=200&v=4');
 
-  if(message.content.toLowerCase().includes('--help')) message.channel.send(helpMessageEmbed);
+  if(message.content.toLowerCase() === '--help') message.channel.send(helpMessageEmbed);
 }
 
 
@@ -61,7 +63,8 @@ function helpMessageFull(message) {
 
     .addFields(
       { name: 'EXIT anytime by entering the command:', value: '`--exit`' },
-      { name: 'Check the TIME REMAINING by entering the command:', value: '`--time`' }
+      { name: 'Check the TIME REMAINING by entering the command:', value: '`--time`' },
+      { name: 'Activate a COUNTDOWN of time remaining by entering the command:', value: '`--countdown`' }
     )
 
     .addField('\u200B', '\u200B')
@@ -72,7 +75,7 @@ function helpMessageFull(message) {
 
     .setFooter('have a productive day!', 'https://avatars.githubusercontent.com/u/83033726?s=200&v=4');
 
-  if(message.content.toLowerCase().includes('--helpall')) message.channel.send(helpMessageFullEmbed);
+  if(message.content.toLowerCase() === '--helpall') message.channel.send(helpMessageFullEmbed);
 }
 
 module.exports = { helpMessage, helpMessageFull };
