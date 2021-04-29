@@ -18,7 +18,6 @@ const cleanUp = async (usersArray) => {
         }
 	
         if(user.mode !== 'shame') {
-          console.log('exited early');
           removeChannelOverwrites(user);
           deleteChannel(user.newChannel);
         }
@@ -34,7 +33,6 @@ const cleanUp = async (usersArray) => {
         }
 	
         if(user.mode !== 'shame') {
-          console.log('timer up');
           removeChannelOverwrites(user);
           deleteChannel(user.newChannel);
         }
