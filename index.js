@@ -32,3 +32,7 @@ client.on('message', (message) => {
   randomMeme(message); // --meme
   countdown(message); // --countdown
 });
+
+// client.on('message', message => {
+//   if(message.content.startsWith('--channels')) console.log(message.guild.channels.cache.map(channel => channel.name));
+// });
