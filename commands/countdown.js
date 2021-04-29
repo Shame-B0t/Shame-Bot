@@ -34,12 +34,12 @@ setInterval(() => {
   for(let i = 0; i < usersArray.length; i++) {
     const user = usersArray[i];
     if(user.userSetTimer){
-      user.botTimerMessage.edit(`You have ${Math.ceil((user.endTime - Date.now()) / 1000)} secs left`);
+      // If hasNickname === true, use nickname, else:
+      user.botTimerMessage.edit(`${user.username} you have ${Math.ceil((user.endTime - Date.now()) / 1000)} secs left`);
     }
   }
-}, 5000);
+}, 1000);
 
 module.exports = { 
-  countdown,
-
+  countdown
 };

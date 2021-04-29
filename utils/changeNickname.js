@@ -10,16 +10,15 @@ function changeNickname(message, user){
   }
 
   if(hasNickname(user)){
-    const shortname = user.nickname;
+    // const shortname = user.nickname;
     let abbreviatedNickname = user.nickname;
-    if(shortname.length > 12){
-      abbreviatedNickname = shortname.split('').splice(0, 11).join('');
+    if(abbreviatedNickname.length > 20){
+      abbreviatedNickname = abbreviatedNickname.split('').splice(0, 20).join('');
     }
-    message.member.setNickname(`${abbreviatedNickname} is in a focus mode`);
+    message.member.setNickname(`${abbreviatedNickname} || FOCUSED`);
     return;
   } 
-  message.member.setNickname(`${user.username} is in a focus mode`);
-
+  message.member.setNickname(`${user.username} || FOCUSED`);
 }
 
 function restoreNickname(user, member){
