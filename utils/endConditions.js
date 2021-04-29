@@ -38,7 +38,7 @@ const cleanUp = async (usersArray) => {
         // if(isBotRoleHigher({ member: user.member }))
         restoreNickname(user, user.member);
         user.botTimerMessage.delete();
-	
+
         if(user.mode !== 'shame') {
           console.log('exited early');
           removeChannelOverwrites(user);
