@@ -1,6 +1,7 @@
 // create a role that will be assigned to a user
 
-const createRole = ({ guild }, roleName) => {
+const createRole = (message, roleName) => {
+  const { guild } = message;
   const rolesCount = guild.roles.cache.size;
   const topOfRolesList = rolesCount - 1;
 
@@ -13,7 +14,8 @@ const createRole = ({ guild }, roleName) => {
   });
 };
 
-const deleteRole = ({ guild }, role) => {
+const deleteRole = (message, role) => {
+  const { guild } = message;
   guild.roles.cache.find(guildRole => guildRole.id === role.id).delete();
 };
 

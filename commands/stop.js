@@ -3,7 +3,6 @@ const { botReplies } = require('../data/shameReplies');
 const { presentChallenge } = require('../utils/timeInterrupt');
 const { usersArray }  = require('./start');
 
-
 function ifExit(message){
   if(message.author.bot) return;
   if(message.content.toLowerCase().startsWith('--exit')){
@@ -19,14 +18,10 @@ function ifExit(message){
         // user.isActive = false;
       }
     }
-  }
-  
- 
-
-  
+  }  
 }
 
 module.exports = {
-  ifExit,
+  ifExit
 };
 
