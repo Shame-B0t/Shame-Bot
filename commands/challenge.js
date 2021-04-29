@@ -3,7 +3,7 @@ const { usersArray }  = require('./start');
 
 function ifChallenge(message){
   if(message.author.bot) return;
-  if(message.content.startsWith('--challenge')){
+  if(message.content.toLowerCase().startsWith('--challenge')){
     for(let i = 0; i < usersArray.length; i++) {
       const user = usersArray[i];
 
