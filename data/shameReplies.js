@@ -1,3 +1,5 @@
+const { msToString } = require('../utils/parseTime');
+
 const shameRepliesArray = [
   'tsk tsk. Back to focus time!',
   'excuse me bruv, aren\'t you supposed to be focusing!?!',
@@ -38,9 +40,11 @@ const botReplies = {
     return 'Sorry, Shame-b02 cannot change a server owner\'s nickname, but other functionality in shame mode should work as expected';
   },
 
+
   // Update to show remaining time in hours/minutes/seconds where applicable
   confirmFocusMode(mode, time){
-    return `You are now in ${mode} mode. You will be restricted for ${time / 60000} minutes`;
+    const timeRemaining = msToString(time);
+    return `You are now in ${mode} mode. You will be restricted for ${timeRemaining}`;
   },
 
   // Update to show remaining time in hours/minutes/seconds where applicable
@@ -62,7 +66,7 @@ const botReplies = {
   },
 
   serveChallenge(userId, challengeParam){
-    return `Nice try <@${userId}>, you tried to end your timer early but to escape lockdown mode early you must first complete a challenge. Begin your response with --challenge and type a ${challengeParam} word essay on why staying focused is important for accomplishing your goals.`;
+    return `Nice try <@${userId}>, you tried to end your focus mode but to escape lockdown mode early you must first complete a challenge. Begin your response with --challenge and type a ${challengeParam} word essay on why staying focused is important for accomplishing your goals.`;
   },
 
   challengeCompleted(){
@@ -70,7 +74,7 @@ const botReplies = {
   },
 
   challengeIncomplete(response, challengeParam){
-    return `You only typed ${response.length} out of the ${challengeParam} word requirement. Resubmit your answer using --challenge with ${challengeParam - response.length} more words`;
+    return `Don't skimp! You've only typed ${response.length} out of the ${challengeParam} word requirement. Resubmit your answer using --challenge with ${challengeParam - response.length} more words`;
   },
 
   tooPowerful(){

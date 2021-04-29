@@ -117,7 +117,6 @@ async function ifStart(message, client){
     message.reply(botReplies.confirmFocusMode(mode, parsedTime));
 
     usersArray.push(userObj);
-   
   }
 
 }
