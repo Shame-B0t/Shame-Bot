@@ -14,6 +14,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - run: npm ci
+    - run: npm i eslint esm jsdom
+    - run: npx eslint .
     - run: npm test
       env:
         CI: true
