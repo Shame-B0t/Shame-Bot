@@ -24,7 +24,7 @@ function countdown(message) {
     // if time left < 1 min, show seconds
 
     //   reply to message with time left
-    message.reply(`You have ${(focusedUser.endTime - Date.now()) / 1000} left.`)
+    message.reply(`You have ${Math.ceil((focusedUser.endTime - Date.now()) / 1000)} secs left.`)
       .then(sentMessage => focusedUser.botTimerMessage = sentMessage);
     
   }
@@ -34,7 +34,7 @@ setInterval(() => {
   for(let i = 0; i < usersArray.length; i++) {
     const user = usersArray[i];
     if(user.userSetTimer){
-      user.botTimerMessage.edit(`You have ${(user.endTime - Date.now()) / 1000} secs left`);
+      user.botTimerMessage.edit(`You have ${Math.ceil((user.endTime - Date.now()) / 1000)} secs left`);
     }
   }
 }, 5000);
