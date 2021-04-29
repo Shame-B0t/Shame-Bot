@@ -9,6 +9,7 @@ const { autoReply } = require('./utils/autoReply');
 const { randomMeme } = require('./stretch/randomMeme');
 const { publiclyShame } = require('./utils/publiclyShame');
 const { timeCheck } = require('./commands/time');
+const { countdown } = require('./commands/countdown');
 
 client.once('ready', () => {
   console.log('Good to go, boss!');
@@ -30,6 +31,7 @@ client.on('message', (message) => {
   helpMessage(message); //--help
   helpMessageFull(message); //--helpall
   randomMeme(message); // --meme
+  countdown(message); // --countdown
 });
 
 // client.on('message', message => {
