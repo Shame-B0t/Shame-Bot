@@ -1,6 +1,6 @@
-const isUserAdmin = (member) => {
-  return member.permissions.has('ADMINISTRATOR') ? true : false;
-};
+// const isUserAdmin = (member) => {
+//   return member.permissions.has('ADMINISTRATOR') ? true : false;
+// };
 
 const makeChannelOverwrites = async (message, userObj) => {
   const { author, member } = message;
