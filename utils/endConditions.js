@@ -22,7 +22,11 @@ const cleanUp = async (usersArray) => {
       }
 	
       if(user.isActive){
-        user.originalChannel.send(botReplies.timerEnded(user.userId));
+        setTimeout(() => {
+          
+          user.originalChannel.send(botReplies.timerEnded(user.userId));
+          
+        }, 1000);
       }
 	
       usersArray.splice(i, 1);
