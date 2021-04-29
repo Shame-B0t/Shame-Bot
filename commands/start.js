@@ -36,9 +36,9 @@ async function ifStart(message, client){
     
     if(!timeRegex.test(timeoutLength)) return message.reply(botReplies.invalidTime(mode));
 
-    const parsedTime = parseTime(timeoutLength);
+    // const parsedTime = parseTime(timeoutLength);
     
-    // const parsedTime = 15000;
+    const parsedTime = 10000;
 
     // pushed all original channels one by one into a new array
     const startChannels = message.guild.channels.cache.filter(channel => !channel.name.endsWith('focus')).map(channel => channel);
