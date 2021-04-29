@@ -1,9 +1,5 @@
 const { botReplies } = require('../data/shameReplies');
-<<<<<<< HEAD
-const { changeNickname } = require('../stretch/changeNickname');
-=======
 const { changeNickname } = require('../utils/changeNickname');
->>>>>>> 30a9884c6d41cbb54b1bf2620a5a7b72624e3fa3
 // const { isBotRoleHigher } = require('../utils/checkRoleStatus');
 const { makeNewPrivateChannel } = require('../utils/newChannel');
 const { makeChannelOverwrites } = require('../utils/overwriteChannelPerms');
