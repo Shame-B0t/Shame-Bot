@@ -3,12 +3,13 @@ const Discord = require('discord.js');
 const { ifChallenge } = require('./commands/challenge');
 const client = new Discord.Client(); 
 const { ifStart } = require('./commands/start');
-const { helpMessage } = require('./commands/help');
+const { helpMessage, helpMessageFull } = require('./commands/help');
 const { ifExit } = require('./commands/stop');
 const { autoReply } = require('./utils/autoReply');
 const { randomMeme } = require('./utils/randomMeme');
 const { publiclyShame } = require('./utils/publiclyShame');
 const { timeCheck } = require('./commands/time');
+const { countdown } = require('./commands/countdown');
 
 client.once('ready', () => {
   console.log('Good to go, boss!');
@@ -28,5 +29,7 @@ client.on('message', (message) => {
   ifChallenge(message); //--challenge
   timeCheck(message); //--time
   helpMessage(message); //--help
+  helpMessageFull(message); //--helpall
   randomMeme(message); // --meme
+  countdown(message); // --countdown
 });

@@ -78,7 +78,11 @@ const botReplies = {
   },
 
   tooPowerful(){
-    return 'Nope, sorry, you\'re too powerful for me. Try `shame` mode, or ask someone with administrative privileges to move my role up in the hierarchy';
+    return 'Nope, sorry, you\'re too powerful for me. Try `shame` mode, or ask someone with administrative priveliges to move my role up in the hierarchy';
+  },
+
+  countdownTimer(){
+    return 'you already have a countdown timer started';
   }
 };
 
