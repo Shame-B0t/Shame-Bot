@@ -10,10 +10,10 @@ function changeNickname(message, user){
   }
 
   if(hasNickname(user)){
-    const shortname = user.nickname;
+    // const shortname = user.nickname;
     let abbreviatedNickname = user.nickname;
-    if(shortname.length > 20){
-      abbreviatedNickname = shortname.split('').splice(0, 20).join('');
+    if(abbreviatedNickname.length > 20){
+      abbreviatedNickname = abbreviatedNickname.split('').splice(0, 20).join('');
     }
     message.member.setNickname(`${abbreviatedNickname} || FOCUSED`);
     return;
