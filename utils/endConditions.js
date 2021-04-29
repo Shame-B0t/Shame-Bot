@@ -12,14 +12,14 @@ const cleanUp = async (usersArray) => {
 	
       if(!user.isActive){
         restoreNickname(user, user.member);
-
-        if(user.userSetTimer){
-          user.botTimerMessage.delete();
-        }
 	
         if(user.mode !== 'shame') {
           removeChannelOverwrites(user);
           deleteChannel(user.newChannel);
+        } else {
+          if(user.userSetTimer){
+            user.botTimerMessage.delete();
+          }
         }
       }
 	
@@ -35,6 +35,10 @@ const cleanUp = async (usersArray) => {
         if(user.mode !== 'shame') {
           removeChannelOverwrites(user);
           deleteChannel(user.newChannel);
+        } else {
+          if(user.userSetTimer){
+            user.botTimerMessage.delete();
+          }
         }
       }
 	
