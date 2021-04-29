@@ -1,9 +1,10 @@
 const { botReplies } = require('../data/shameReplies');
 
 const deleteChannel = channel => {
+  console.log('CHANNEL NAME', channel.name);
   channel.delete()
     .then(result => console.log(`Channel ${result.id} - ${result.name} DELETED`))
-    .catch(console.error);
+    .catch(error => console.error('ERROR MESSAGE:', error));
 };
 
 /*
@@ -15,7 +16,8 @@ sends an @ mention to the triggering user from the new channel after it is insta
 for test/illustration purposes, deleteChannel is being used here after a ten second timeout
 */
 
-const makeNewPrivateChannel = (client, { guild, author }, timeout) => {
+const makeNewPrivateChannel = (client, message, userObj) => {
+  const { guild, author } = message;
   const { channels } = guild;
   
   // maybe add in a react here on the original message that indicates it's been heard? in case the user misses the mention from the new channel? A lil ear emoji? Some studious person? A speech bubble? A telephone?
@@ -38,7 +40,7 @@ const makeNewPrivateChannel = (client, { guild, author }, timeout) => {
   })
     .then(newChannel => {
       newChannel.send(botReplies.welcomeToChannel(author.id));
-      setTimeout(() => deleteChannel(newChannel), timeout);
+      userObj.newChannel = newChannel;
     })
     .catch(console.error);
 };
