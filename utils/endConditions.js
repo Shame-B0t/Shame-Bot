@@ -13,10 +13,8 @@ const cleanUp = async (usersArray) => {
       if(!user.isActive){
         restoreNickname(user, user.member);
 
-
         if(user.userSetTimer){
           user.botTimerMessage.delete();
-
         }
 	
         if(user.mode !== 'shame') {
