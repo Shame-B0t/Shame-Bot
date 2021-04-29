@@ -4,7 +4,7 @@ const { msToString, remainingTime } = require('../utils/parseTime');
 
 function timeCheck(message) {
   if(message.author.bot) return; 
-  if(message.content.startsWith('--time')) {
+  if(message.content.toLowerCase().startsWith('--time')) {
   // check if user is in usersArray
     const focusedUser = usersArray.find(activeUser =>
       activeUser.userId === message.author.id);

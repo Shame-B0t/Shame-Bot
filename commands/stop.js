@@ -6,7 +6,7 @@ const { usersArray }  = require('./start');
 
 function ifExit(message){
   if(message.author.bot) return;
-  if(message.content.startsWith('--exit')){
+  if(message.content.toLowerCase().startsWith('--exit')){
     for(let i = 0; i < usersArray.length; i++) {
       const user = usersArray[i];
 

@@ -22,7 +22,7 @@ janitor(100, () => cleanUp(usersArray));
 
 async function ifStart(message, client){
 
-  if(message.content.startsWith(PREFIX + 'focus')){
+  if(message.content.toLowerCase().startsWith(PREFIX + 'focus')){
     // checking to see if user is already tracked/focusing
     for(let i = 0; i < usersArray.length; i++) {
       const user = usersArray[i];
@@ -35,7 +35,7 @@ async function ifStart(message, client){
     const timeRegex = /^([0-9]|[1-9][0-9])([0-9]|[1-9][0-9]):([0-9]|[1-9][0-9])([0-9]|[1-9][0-9])$/;
 
     // pull mode and time args off message
-    const [mode, timeoutLength] = message.content.split(' ').slice(1);
+    const [mode, timeoutLength] = message.content.toLowerCase().split(' ').slice(1);
 
     if(mode !== MODE_1 && mode !== MODE_2 && mode !== MODE_3) return message.reply(botReplies.invalidStatus());
     
