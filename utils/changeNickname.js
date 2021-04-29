@@ -1,7 +1,7 @@
 // changes the user's nickname depending on status
 
 const { botReplies } = require('../data/shameReplies');
-const { isUserOwner } = require('../utils/updateRoles');
+const { isUserOwner } = require('./checkOwner');
 
 function changeNickname(message, user){
   if(isUserOwner(message)) {
@@ -10,7 +10,6 @@ function changeNickname(message, user){
   }
 
   if(hasNickname(user)){
-    // const shortname = user.nickname;
     let abbreviatedNickname = user.nickname;
     if(abbreviatedNickname.length > 20){
       abbreviatedNickname = abbreviatedNickname.split('').splice(0, 20).join('');

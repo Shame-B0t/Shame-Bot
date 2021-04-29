@@ -1,10 +1,9 @@
 const { botReplies } = require('../data/shameReplies');
 const { changeNickname } = require('../utils/changeNickname');
-// const { isBotRoleHigher } = require('../utils/checkRoleStatus');
 const { makeNewPrivateChannel } = require('../utils/newChannel');
 const { makeChannelOverwrites } = require('../utils/overwriteChannelPerms');
-const { isUserOwner, getUserRoles } = require('../utils/updateRoles');
-const { parseTime } = require('../utils/parseTime');
+const { isUserOwner } = require('../utils/checkOwner');
+// const { parseTime } = require('../utils/parseTime');
 const { cleanUp, janitor } = require('../utils/endConditions');
 
 const PREFIX = '--';
@@ -37,9 +36,9 @@ async function ifStart(message, client){
     
     if(!timeRegex.test(timeoutLength)) return message.reply(botReplies.invalidTime(mode));
 
-    const parsedTime = parseTime(timeoutLength);
+    // const parsedTime = parseTime(timeoutLength);
     
-    // const parsedTime = 15000;
+    const parsedTime = 10000;
 
     // pushed all original channels one by one into a new array
     const startChannels = message.guild.channels.cache.filter(channel => !channel.name.endsWith('focus')).map(channel => channel);
@@ -58,7 +57,6 @@ async function ifStart(message, client){
       startTime: Date.now(),
       endTime: Date.now() + parsedTime,
       originalChannel: message.channel,
-      userRoles: getUserRoles(message),
       nickname: startNickname,
       member: message.member,
       guildChannels: startChannels,
@@ -67,58 +65,22 @@ async function ifStart(message, client){
     
     changeNickname(message, userObj);
 
-    // // assign mode based on user choice
-    switch(mode){
-      case MODE_1:
-
-        // if(isBotRoleHigher(message)
-        break;
-        
-      case MODE_2: {
-        if(isUserOwner(message)) {
-          message.reply(botReplies.userIsOwner());
-          return;
-        }
-        // // else if(!isBotRoleHigher(message)) {
-        // //   message.reply(botReplies.tooPowerful());
-        // //   return;
-        // // }
-  
-        // check admin roles and make overwrites
-        await makeChannelOverwrites(message, userObj);
-          
-        await makeNewPrivateChannel(client, message, userObj);
-
-        break;
-      }
-      
-      case MODE_3: 
-      {
-        if(isUserOwner(message)) {
-          message.reply(botReplies.userIsOwner());
-          return;
-        }
-        
-        //   // else if(!isBotRoleHigher(message)) {
-        //   //   message.reply(botReplies.tooPowerful());
-        //   //   return;
-        //   // }
-        //   console.log('permissions cleared, continuing function');
-
-        await makeChannelOverwrites(message, userObj);
-        await makeNewPrivateChannel(client, message, userObj);
-        
-        break;
-      }
-      default: message.reply(botReplies.invalidStatus()); 
-        return;
-    }
-    
     message.reply(botReplies.confirmFocusMode(mode, parsedTime));
+    
+    setTimeout(async () => {
+      if(mode !== MODE_1){
+        if(isUserOwner(message)) {
+          message.reply(botReplies.userIsOwner());
+          return;
+        }
+        await makeChannelOverwrites(message, userObj);
+        await makeNewPrivateChannel(client, message, userObj);
+      }
+    }, 1000);
+    
 
     usersArray.push(userObj);
   }
-
 }
 
 module.exports = {

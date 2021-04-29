@@ -34,8 +34,7 @@ setInterval(() => {
   for(let i = 0; i < usersArray.length; i++) {
     const user = usersArray[i];
     if(user.userSetTimer){
-      // If hasNickname === true, use nickname, else:
-      user.botTimerMessage.edit(`${user.username} you have ${Math.ceil((user.endTime - Date.now()) / 1000)} secs left`);
+      user.botTimerMessage.edit(`${user.nickname || user.username} you have ${Math.ceil((user.endTime - Date.now()) / 1000)} secs left`);
     }
   }
 }, 1000);

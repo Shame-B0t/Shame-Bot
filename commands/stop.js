@@ -1,6 +1,6 @@
-//  response to command "stop": interrupt and end the timeout that is affecting the user
+//  response to command "--exit": interrupt and end the timeout that is affecting the user
 const { botReplies } = require('../data/shameReplies');
-const { presentChallenge } = require('../utils/timeInterrupt');
+const { presentChallenge } = require('../utils/challengeData');
 const { usersArray }  = require('./start');
 
 function ifExit(message){
@@ -15,7 +15,6 @@ function ifExit(message){
       }
       if(message.author.id === user.userId && user.mode === 'lockdown'){
         presentChallenge(message, user.userId);
-        // user.isActive = false;
       }
     }
   }  
