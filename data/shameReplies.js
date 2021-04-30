@@ -15,7 +15,6 @@ const shameRepliesArray = [
 ];
 
 const botReplies = {
-
   timerEnded(userId){
     return `<@${userId}> your focus time is up`;
   },
@@ -40,10 +39,16 @@ const botReplies = {
     return 'Sorry, Shame-b0t cannot change a server owner\'s nickname, but other functionality in shame mode should work as expected';
   },
 
-  confirmFocusMode(userObj){
+  confirmShameMode(userObj){
     const timeLeft = remainingTime(userObj.endTime);
     const timeLeftString = msToString(timeLeft);
     return `You are now in ${userObj.mode} mode. You will be restricted for ${timeLeftString}`;
+  },
+
+  confirmOtherFocusMode(userObj){
+    const timeLeft = remainingTime(userObj.endTime);
+    const timeLeftString = msToString(timeLeft);
+    return `You are now in ${userObj.mode} mode. You will be restricted for ${timeLeftString}. Go into your new private focus channel to enter any commands.`;
   },
 
   timeCheck(user){
@@ -87,8 +92,6 @@ const botReplies = {
   noChallenge(){
     return 'you are not in a mode which requires a challenge before exiting. To end your session early enter command `--exit`';
   }
-
-
 };
 
 module.exports = {
