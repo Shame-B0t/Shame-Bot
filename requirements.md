@@ -2,8 +2,7 @@
 
 This project uses:
 - [Discord.js](https://discord.js.org/#/)
-- [discord-reply](https://www.npmjs.com/package/discord-reply)
-- the [Discord API](https://discord.com/developers/docs/intro)
+- the [Discord API](https://discord.com/developers/docs/intro) (via Discord.js)
 - deployed on [Heroku](https://dashboard.heroku.com)
 
 See the [`package.json`](./package.json) for more details about dev dependencies.
