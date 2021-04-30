@@ -18,7 +18,6 @@ function countdown(message) {
     } 
     focusedUser.userSetTimer = true;  
 
-
     //   reply to message with time left
     const timeLeft = remainingTime(focusedUser.endTime);
     const timeLeftString = msToString(timeLeft);
