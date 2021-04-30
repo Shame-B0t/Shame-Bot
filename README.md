@@ -54,6 +54,10 @@ If another user in the server mentions you while you're supposed to be focusing,
 
 ---
 
+Shame-b0t should be assigned the highest spot in the role hierarchy of your server in order to be able to manipulate channels and roles in a reliable way.
+
+---
+
 Project planning can be seen on our [Miro board](https://miro.com/app/board/o9J_lJdRu3A=/).
 
 When Shame-b0t is ready to be released into the wild, you'll find a link here!
