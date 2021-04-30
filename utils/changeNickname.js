@@ -3,7 +3,7 @@
 const { botReplies } = require('../data/shameReplies');
 const { isUserOwner } = require('./checkOwner');
 
-function changeNickname(message, user){
+async function changeNickname(message, user){
   if(isUserOwner(message)) {
     message.reply(botReplies.changeOwnerNickname());
     return;
@@ -14,14 +14,14 @@ function changeNickname(message, user){
     if(abbreviatedNickname.length > 20){
       abbreviatedNickname = abbreviatedNickname.split('').splice(0, 20).join('');
     }
-    message.member.setNickname(`${abbreviatedNickname} || FOCUSED`);
+    await message.member.setNickname(`${abbreviatedNickname} || FOCUSED`);
     return;
   } 
-  message.member.setNickname(`${user.username} || FOCUSED`);
+  await message.member.setNickname(`${user.username} || FOCUSED`);
 }
 
-function restoreNickname(user, member){
-  member.setNickname(user.nickname);
+async function restoreNickname(user, member){
+  await member.setNickname(user.nickname);
 }
 
 function hasNickname(user){
