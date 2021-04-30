@@ -25,7 +25,6 @@
   },
   "homepage": "https://github.com/Shame-B0t/Shame-Bot#readme",
   "dependencies": {
-    "discord-reply": "^0.1.2",
     "discord.js": "^12.5.3",
     "dotenv": "^8.2.0"
   },
