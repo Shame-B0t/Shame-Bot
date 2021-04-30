@@ -10,6 +10,7 @@ const { randomMeme } = require('./utils/randomMeme');
 const { publiclyShame } = require('./utils/publiclyShame');
 const { timeCheck } = require('./commands/time');
 const { countdown } = require('./commands/countdown');
+const { initalEmbed } = require('./utils/initialEmbed');
 
 client.once('ready', () => {
   console.log('Good to go, boss!');
@@ -20,6 +21,11 @@ client.once('ready', () => {
 });
 
 client.login(process.env.TOKEN);
+
+client.on('guildCreate', guild => {
+  const channel = guild.channels.cache.find(channel => channel.type === 'text');
+  channel.send(initalEmbed);
+});
 
 client.on('message', (message) => {
   ifStart(message, client); //--focus
