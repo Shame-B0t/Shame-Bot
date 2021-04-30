@@ -18,26 +18,28 @@ function pluralize(number, unitOfTime) {
   else return `${number} ${unitOfTime}s`;
 }
 
-// convert into minutes/hours "HH hour(s), MM minutes" 
+// take milliseconds and convert into minutes/hours/seconds, then into a string "X hour(s), Y minute(s), Z second(s)" 
 function msToString(timeInMs) {
   const timeInHours = timeInMs / 1000 / 60 / 60; 
   const roundedHours = Math.floor(timeInHours); 
   const finalHours = pluralize(roundedHours, 'hour'); 
 
+  // take the remainder from total hours - rounded hours and convert to minutes
   const timeInMins = (timeInHours - roundedHours) * 60; 
   const roundedMins = Math.floor(timeInMins);
   const finalMins = pluralize(roundedMins, 'minute');
 
+  // convert remainder to seconds
   const timeInSeconds = (timeInMins - roundedMins) * 60;
   const roundedSeconds = Math.floor(timeInSeconds);
   const finalSeconds = pluralize(roundedSeconds, 'second');
 
   if(roundedHours > 0) {
     return `${finalHours}, ${finalMins}, ${finalSeconds}`;
-  }
+  } 
   else if(roundedHours === 0 && roundedMins > 0) {
     return `${finalMins}, ${finalSeconds}`;
-  }
+  } 
   else if(roundedMins === 0) {
     return `${finalSeconds}`;
   }

@@ -29,15 +29,15 @@ describe('tests utility functions', () => {
   });
 
   it('converts milliseconds into a string formatted as 00 hours 00 minutes', () => {
-    const stringTime1 = '1 minute';
-    const stringTime2 = '1 hour';
-    const stringTime3 = '1 hour, 15 minutes';
-    const stringTime4 = '10 hours, 1 minute';
+    const stringTime1 = '1 minute, 0 seconds';
+    const stringTime2 = '1 hour, 0 minutes, 2 seconds';
+    const stringTime3 = '1 hour, 15 minutes, 0 seconds';
+    const stringTime4 = '10 hours, 1 minute, 0 seconds';
     
     expect(msToString(60000)).toEqual(stringTime1);
-    expect(msToString(3600000)).toEqual(stringTime2);
+    expect(msToString(3603000)).toEqual(stringTime2);
     expect(msToString(4500000)).toEqual(stringTime3);
-    expect(msToString(36060000)).toEqual(stringTime4);
+    expect(msToString(36061000)).toEqual(stringTime4);
   });
 
   it('loops through shameRepliesArray and gets a random response', () => {
