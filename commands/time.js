@@ -4,7 +4,7 @@ const { botReplies } = require('../data/shameReplies');
 
 function timeCheck(message) {
   if(message.author.bot) return; 
-  if(message.content.toLowerCase().startsWith('--time')) {
+  if(message.content.toLowerCase() === '--time') {
   // check if user is in usersArray
     const focusedUser = usersArray.find(activeUser =>
       activeUser.userId === message.author.id);
