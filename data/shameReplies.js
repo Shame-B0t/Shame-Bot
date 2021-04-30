@@ -21,15 +21,15 @@ const botReplies = {
   },
 
   alreadyInAMode(){
-    return 'you are already in a focus mode, enter --exit to end your session';
+    return 'you are already in a focus mode, enter `--exit` to end your session';
   },
 
   invalidStatus(){
-    return 'Enter a valid status: shame, isolation, or lockdown in this format, ex. "--focus isolation 01:00"';
+    return 'Enter a valid status: `shame`, `isolation`, or `lockdown` in this format: `--focus isolation 01:00`';
   },
 
   invalidTime(mode){
-    return `enter a valid time format hh:mm in your request ex. "--focus ${mode} 01:00"`;
+    return `Enter a valid time format (hh:mm) in your request ex. "--focus ${mode} 01:00"`;
   },
 
   userIsOwner(){
@@ -37,7 +37,7 @@ const botReplies = {
   },
 
   changeOwnerNickname(){
-    return 'Sorry, Shame-b02 cannot change a server owner\'s nickname, but other functionality in shame mode should work as expected';
+    return 'Sorry, Shame-b0t cannot change a server owner\'s nickname, but other functionality in shame mode should work as expected';
   },
 
   confirmFocusMode(userObj){
@@ -65,7 +65,7 @@ const botReplies = {
   },
 
   serveChallenge(userId, challengeParam){
-    return `Nice try <@${userId}>, you tried to end your focus mode but to escape lockdown mode early you must first complete a challenge. Begin your response with --challenge and type a ${challengeParam} word essay on why staying focused is important for accomplishing your goals.`;
+    return `Nice try <@${userId}>, you tried to end your focus mode, but to escape lockdown early you must first complete a challenge. Begin your response with --challenge and type a ${challengeParam} word essay on why staying focused is important for accomplishing your goals.`;
   },
 
   challengeCompleted(){
@@ -85,7 +85,7 @@ const botReplies = {
   },
 
   noChallenge(){
-    return 'you are not in a mode which requires a challenge before exiting. To end your session early enter command --exit';
+    return 'you are not in a mode which requires a challenge before exiting. To end your session early enter command `--exit`';
   }
 
 
