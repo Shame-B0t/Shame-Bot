@@ -8,7 +8,6 @@ function autoReply(message) {
   
   //check all mentioned users to see if they are on list of focused users
   for(const mentionedUser of message.mentions.users) {
-    
     const focusedUser = usersArray.find(activeUser =>
       activeUser.userId === mentionedUser[1].id
     );
@@ -17,7 +16,7 @@ function autoReply(message) {
       const endTime = remainingTime(focusedUser.endTime);
       const timeLeft = msToString(endTime);
 
-      // send autoreply that they are focusing
+      // send autoreply that user is focusing and for how long
       message.reply(botReplies.autoReplyToSender(focusedUser, timeLeft));
     }
   }

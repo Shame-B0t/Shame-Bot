@@ -1,7 +1,7 @@
 // function to check remaining time on focus mode
 const { botReplies } = require('../data/shameReplies');
 const { usersArray } = require('./start');
-// const { msToString, remainingTime } = require('../utils/parseTime');
+const { remainingTime, msToString } = require('../utils/parseTime');
 
 function countdown(message) {
   if(message.author.bot) return; 
@@ -17,14 +17,11 @@ function countdown(message) {
 
     if(!focusedUser) return;
 
-    // pull endtime and compare to now to get timeLeft
-    // const endTime = focusedUser.endTime;
-    // const timeLeft = remainingTime(endTime);
-    // const timeLeftString = msToString(timeLeft);
-    // if time left < 1 min, show seconds
-
     //   reply to message with time left
-    message.reply(`You have ${Math.ceil((focusedUser.endTime - Date.now()) / 1000)} secs left.`)
+    const timeLeft = remainingTime(focusedUser.endTime);
+    const timeLeftString = msToString(timeLeft);
+    // if over a minute update every minute. If less, every second?
+    message.reply(`You have ${timeLeftString} left.`)
       .then(sentMessage => focusedUser.botTimerMessage = sentMessage);
     
   }
@@ -34,10 +31,13 @@ setInterval(() => {
   for(let i = 0; i < usersArray.length; i++) {
     const user = usersArray[i];
     if(user.userSetTimer){
-      user.botTimerMessage.edit(`${user.nickname || user.username} you have ${Math.ceil((user.endTime - Date.now()) / 1000)} secs left`);
+      const timeLeft = remainingTime(user.endTime);
+      const timeLeftString = msToString(timeLeft);
+    
+      user.botTimerMessage.edit(`${user.nickname || user.username} you have ${timeLeftString} left`);
     }
   }
-}, 1000);
+}, 3000);
 
 module.exports = { 
   countdown
