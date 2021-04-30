@@ -9,13 +9,15 @@ function countdown(message) {
   // check if user is in usersArray
     const focusedUser = usersArray.find(activeUser =>
       activeUser.userId === message.author.id);
+      
+    if(!focusedUser) return;
+      
     if(focusedUser.userSetTimer){
       message.reply(botReplies.countdownTimer());
       return;
     } 
     focusedUser.userSetTimer = true;  
 
-    if(!focusedUser) return;
 
     //   reply to message with time left
     const timeLeft = remainingTime(focusedUser.endTime);
