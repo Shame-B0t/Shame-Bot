@@ -1,6 +1,6 @@
 // function to check remaining time on focus mode
 const { usersArray } = require('./start');
-const { msToString, remainingTime } = require('../utils/parseTime');
+const { botReplies } = require('../data/shameReplies');
 
 function timeCheck(message) {
   if(message.author.bot) return; 
@@ -11,14 +11,8 @@ function timeCheck(message) {
 
     if(!focusedUser) return;
 
-    // pull endtime and compare to now to get timeLeft
-    const endTime = focusedUser.endTime;
-    const timeLeft = remainingTime(endTime);
-    const timeLeftString = msToString(timeLeft);
-    // if time left < 1 min, show seconds
-
     //   reply to message with time left
-    message.reply(`You have ${timeLeftString} left.`);
+    message.reply(botReplies.timeCheck(focusedUser));
   }
 }
 

@@ -3,7 +3,7 @@ const { changeNickname } = require('../utils/changeNickname');
 const { makeNewPrivateChannel } = require('../utils/newChannel');
 const { makeChannelOverwrites } = require('../utils/overwriteChannelPerms');
 const { isUserOwner } = require('../utils/checkOwner');
-// const { parseTime } = require('../utils/parseTime');
+const { parseTime } = require('../utils/parseTime');
 const { cleanUp, janitor } = require('../utils/endConditions');
 
 const PREFIX = '--';
@@ -36,9 +36,9 @@ async function ifStart(message, client){
     
     if(!timeRegex.test(timeoutLength)) return message.reply(botReplies.invalidTime(mode));
 
-    // const parsedTime = parseTime(timeoutLength);
+    const parsedTime = parseTime(timeoutLength);
     
-    const parsedTime = 10000;
+    // const parsedTime = 10000;
 
     // pushed all original channels one by one into a new array
     const startChannels = message.guild.channels.cache.filter(channel => !channel.name.endsWith('focus')).map(channel => channel);
@@ -65,7 +65,7 @@ async function ifStart(message, client){
     
     changeNickname(message, userObj);
 
-    message.reply(botReplies.confirmFocusMode(mode, parsedTime));
+    message.reply(botReplies.confirmFocusMode(userObj));
     
     setTimeout(async () => {
       if(mode !== MODE_1){

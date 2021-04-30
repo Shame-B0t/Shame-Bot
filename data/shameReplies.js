@@ -1,4 +1,4 @@
-const { msToString } = require('../utils/parseTime');
+const { msToString, remainingTime } = require('../utils/parseTime');
 
 const shameRepliesArray = [
   'tsk tsk. Back to focus time!',
@@ -40,16 +40,19 @@ const botReplies = {
     return 'Sorry, Shame-b02 cannot change a server owner\'s nickname, but other functionality in shame mode should work as expected';
   },
 
-
-  // Update to show remaining time in hours/minutes/seconds where applicable
-  confirmFocusMode(mode, time){
-    const timeRemaining = msToString(time);
-    return `You are now in ${mode} mode. You will be restricted for ${timeRemaining}`;
+  confirmFocusMode(userObj){
+    const timeLeft = remainingTime(userObj.endTime);
+    const timeLeftString = msToString(timeLeft);
+    return `You are now in ${userObj.mode} mode. You will be restricted for ${timeLeftString}`;
   },
 
-  // Update to show remaining time in hours/minutes/seconds where applicable
-  autoReplyToSender(user, remainingTime){
+  timeCheck(user){
+    const timeLeft = remainingTime(user.endTime);
+    const timeLeftString = msToString(timeLeft);
+    return `You have ${timeLeftString} left.`;
+  },
 
+  autoReplyToSender(user, remainingTime){
     return `Sorry, ${user.nickname || user.username} is in focus mode currently. Their focus time ends in ${remainingTime}`;
   },
 
@@ -84,6 +87,8 @@ const botReplies = {
   noChallenge(){
     return 'you are not in a mode which requires a challenge before exiting. To end your session early enter command --exit';
   }
+
+
 };
 
 module.exports = {

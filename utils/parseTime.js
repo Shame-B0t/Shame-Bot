@@ -18,21 +18,29 @@ function pluralize(number, unitOfTime) {
   else return `${number} ${unitOfTime}s`;
 }
 
-// convert into minutes/hours "HH hour(s), MM minutes" example: 4500000 ms
+// convert into minutes/hours "HH hour(s), MM minutes" 
 function msToString(timeInMs) {
-  const timeInHours = timeInMs / 1000 / 60 / 60; // 1.25h
-  const roundedHours = Math.floor(timeInHours); // 1hr
-  const finalHours = pluralize(roundedHours, 'hour'); // '1 hour'
+  const timeInHours = timeInMs / 1000 / 60 / 60; 
+  const roundedHours = Math.floor(timeInHours); 
+  const finalHours = pluralize(roundedHours, 'hour'); 
 
-  const timeInMins = (timeInHours - roundedHours) * 60; //15min
+  const timeInMins = (timeInHours - roundedHours) * 60; 
   const roundedMins = Math.floor(timeInMins);
   const finalMins = pluralize(roundedMins, 'minute');
 
-  if(finalHours === '0 hours') {
-    return finalMins;
-  } else if(finalMins === '0 minutes') {
-    return finalHours;
-  } return `${finalHours}, ${finalMins}`;
+  const timeInSeconds = (timeInMins - roundedMins) * 60;
+  const roundedSeconds = Math.floor(timeInSeconds);
+  const finalSeconds = pluralize(roundedSeconds, 'second');
+
+  if(roundedHours > 0) {
+    return `${finalHours}, ${finalMins}, ${finalSeconds}`;
+  }
+  else if(roundedHours === 0 && roundedMins > 0) {
+    return `${finalMins}, ${finalSeconds}`;
+  }
+  else if(roundedMins === 0) {
+    return `${finalSeconds}`;
+  }
 }
 
 function remainingTime(endTime) {
