@@ -65,7 +65,9 @@ async function ifStart(message, client){
     
     changeNickname(message, userObj);
 
-    message.reply(botReplies.confirmFocusMode(userObj));
+    if(mode === MODE_1){
+      message.reply(botReplies.confirmShameMode(userObj));
+    }
     
     setTimeout(async () => {
       if(mode !== MODE_1){
@@ -73,6 +75,7 @@ async function ifStart(message, client){
           message.reply(botReplies.userIsOwner());
           return;
         }
+        message.reply(botReplies.confirmOtherFocusMode(userObj));
         await makeChannelOverwrites(message, userObj);
         await makeNewPrivateChannel(client, message, userObj);
       }
