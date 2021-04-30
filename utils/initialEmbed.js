@@ -6,7 +6,7 @@ const initalEmbed = new Discord.MessageEmbed()
   .setAuthor('Shame-b0t', 'https://avatars.githubusercontent.com/u/83033726?s=200&v=4', 'https://github.com/Shame-B0t/Shame-Bot')
 
   .setTitle('Welcome to Shame-b0t')
-  .setDescription('for the best user experience, please move Shame-b0t to the highest position in list of roles for this server.')
+  .setDescription('For the best user experience, please move Shame-b0t to the highest position in the list of roles for this server.')
 
   .addField('Server Settings > Roles', '\u200B')
 
