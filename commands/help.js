@@ -28,7 +28,7 @@ function helpMessage(message) {
       { name: 'Activate a COUNTDOWN of time remaining by entering the command:', value: '`--countdown`' }
 
     )
-    .addField('\u200B', '*For a full list of instructions and "strictness level descriptions", enter* `--helpall`')
+    .addField('\u200B', '*For a full list of instructions and "strictness level" descriptions, enter* `--helpall`')
 
     .setFooter('have a productive day!', 'https://avatars.githubusercontent.com/u/83033726?s=200&v=4');
 
@@ -44,9 +44,9 @@ function helpMessageFull(message) {
     .setColor('#38000c')
 
     .setAuthor('Shame-b0t', 'https://avatars.githubusercontent.com/u/83033726?s=200&v=4', 'https://github.com/Shame-B0t/Shame-Bot')
-    .setDescription('Shame-bot is your personal productivity manager with an attitude. Use Shame-b0t to focus for a desired amount of time, with varying levels of strictness. ')
+    .setDescription('Shame-b0t is your personal productivity manager with an attitude. Use Shame-b0t to focus for a desired amount of time, with varying levels of strictness. ')
 
-    .addField('note:', 'All commands must start with `--focus` and be followed by a “level of strictness" and a time in the format of 00:00 (hh:mm)')
+    .addField('note:', 'All commands must start with `--focus` and be followed by a "level of strictness" and a time in the format of 00:00 (hh:mm)')
 
     .addField('\u200B', '*Levels of Strictness*')
 
