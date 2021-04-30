@@ -3,14 +3,11 @@ const { msToString, remainingTime } = require('./parseTime');
 const { usersArray } = require('../commands/start');
 const { botReplies } = require('../data/shameReplies');
 
-
-// consider passing usersArray in as arg to function
 function autoReply(message) {
   if(!message.mentions.users || message.author.bot) return;
   
   //check all mentioned users to see if they are on list of focused users
   for(const mentionedUser of message.mentions.users) {
-    
     const focusedUser = usersArray.find(activeUser =>
       activeUser.userId === mentionedUser[1].id
     );
@@ -19,7 +16,7 @@ function autoReply(message) {
       const endTime = remainingTime(focusedUser.endTime);
       const timeLeft = msToString(endTime);
 
-      // send autoreply that they are focusing
+      // send autoreply that user is focusing and for how long
       message.reply(botReplies.autoReplyToSender(focusedUser, timeLeft));
     }
   }
