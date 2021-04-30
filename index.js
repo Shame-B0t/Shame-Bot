@@ -1,7 +1,5 @@
 require('dotenv').config();
-const Discord = require('discord.js');
 const { ifChallenge } = require('./commands/challenge');
-const client = new Discord.Client(); 
 const { ifStart } = require('./commands/start');
 const { helpMessage, helpMessageFull } = require('./commands/help');
 const { ifExit } = require('./commands/stop');
@@ -10,7 +8,11 @@ const { randomMeme } = require('./utils/randomMeme');
 const { publiclyShame } = require('./utils/publiclyShame');
 const { timeCheck } = require('./commands/time');
 const { countdown } = require('./commands/countdown');
-const { initalEmbed } = require('./utils/initialEmbed');
+const { initialEmbed } = require('./utils/initialEmbed');
+
+const Discord = require('discord.js');
+
+const client = new Discord.Client(); 
 
 client.once('ready', () => {
   console.log('Good to go, boss!');
@@ -24,7 +26,7 @@ client.login(process.env.TOKEN);
 
 client.on('guildCreate', guild => {
   const channel = guild.channels.cache.find(channel => channel.type === 'text');
-  channel.send(initalEmbed);
+  channel.send(initialEmbed);
 });
 
 client.on('message', (message) => {
