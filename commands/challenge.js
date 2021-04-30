@@ -1,10 +1,10 @@
-const { checkChallenge } = require('../utils/timeInterrupt');
+const { botReplies } = require('../data/shameReplies');
+const { checkChallenge } = require('../utils/challengeData');
 const { usersArray }  = require('./start');
-
 
 function ifChallenge(message){
   if(message.author.bot) return;
-  if(message.content.startsWith('--challenge')){
+  if(message.content.toLowerCase().startsWith('--challenge')){
     for(let i = 0; i < usersArray.length; i++) {
       const user = usersArray[i];
 
@@ -12,7 +12,7 @@ function ifChallenge(message){
         checkChallenge(message, user);       
       }
       if(message.author.id === user.userId && user.mode !== 'lockdown'){
-        message.reply('you are not in a mode which requires a challenge before exiting. To end your session early enter command --exit');      
+        message.reply(botReplies.noChallenge());      
       }
     }
   } 
