@@ -13,7 +13,7 @@ const MODE_3 = 'lockdown';
 
 const usersArray = [];
 
-janitor(100, () => cleanUp(usersArray));
+janitor(1000, () => cleanUp(usersArray));
 
 async function ifStart(message, client){
 
@@ -22,7 +22,7 @@ async function ifStart(message, client){
     for(let i = 0; i < usersArray.length; i++) {
       const user = usersArray[i];
       if(message.author.id === user.userId) {
-        message.reply(botReplies.alreadyInAMode());
+        await message.reply(botReplies.alreadyInAMode());
         return;
       }
     }
@@ -41,24 +41,24 @@ async function ifStart(message, client){
     // const parsedTime = 10000;
 
     // pushed all original channels one by one into a new array
-    const startChannels = message.guild.channels.cache.filter(channel => !channel.name.endsWith('focus')).map(channel => channel);
+    const startChannels = await message.guild.channels.cache.filter(channel => !channel.name.endsWith('focus')).map(channel => channel);
 
-    const startAdminRoles = message.member.roles.cache.filter(role => 
+    const startAdminRoles = await message.member.roles.cache.filter(role => 
       role.permissions.has('ADMINISTRATOR')
     );
 
-    const startNickname = message.member.nickname;
+    const startNickname = await message.member.nickname;
 
     const userObj = {
-      userId: message.author.id,
-      username: message.author.username,
+      userId: await message.author.id,
+      username: await message.author.username,
       isActive: true,
       mode,
       startTime: Date.now(),
       endTime: Date.now() + parsedTime,
-      originalChannel: message.channel,
+      originalChannel: await message.channel,
       nickname: startNickname,
-      member: message.member,
+      member: await message.member,
       guildChannels: startChannels,
       adminRoles: startAdminRoles
     };
@@ -66,20 +66,20 @@ async function ifStart(message, client){
     changeNickname(message, userObj);
 
     if(mode === MODE_1){
-      message.reply(botReplies.confirmShameMode(userObj));
+      await message.reply(botReplies.confirmShameMode(userObj));
     }
     
-    setTimeout(async () => {
-      if(mode !== MODE_1){
-        if(isUserOwner(message)) {
-          message.reply(botReplies.userIsOwner());
-          return;
-        }
-        message.reply(botReplies.confirmOtherFocusMode(userObj));
-        await makeChannelOverwrites(message, userObj);
-        await makeNewPrivateChannel(client, message, userObj);
+    // setTimeout(async () => {
+    if(mode !== MODE_1){
+      if(isUserOwner(message)) {
+        await message.reply(botReplies.userIsOwner());
+        return;
       }
-    }, 1000);
+      await message.reply(botReplies.confirmOtherFocusMode(userObj));
+      await makeChannelOverwrites(message, userObj);
+      await makeNewPrivateChannel(client, message, userObj);
+    }
+    // }, 1000);
     
 
     usersArray.push(userObj);

@@ -21,21 +21,21 @@ const cleanUp = async (usersArray) => {
     
     if(user.endTime < Date.now() || !user.isActive){ 
 	
-      restoreNickname(user, user.member); 
+      await restoreNickname(user, user.member); 
 	
       if(user.mode !== 'shame') {
-        removeChannelOverwrites(user);
-        deleteChannel(user.newChannel); 
+        await removeChannelOverwrites(user);
+        await deleteChannel(user.newChannel); 
       } else {
         // might want to test out some refactoring on this else block
         if(user.userSetTimer){
-          user.botTimerMessage.delete(); 
+          await user.botTimerMessage.delete(); 
         }
       }
 	
       if(user.isActive){
-        setTimeout(() => {
-          user.originalChannel.send(botReplies.timerEnded(user.userId)); 
+        setTimeout(async () => {
+          await user.originalChannel.send(botReplies.timerEnded(user.userId)); 
         }, 1000);
       }
 	
