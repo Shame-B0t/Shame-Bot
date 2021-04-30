@@ -1,3 +1,11 @@
+/*
+looks at the array of admin roles, if any, stores on the user object
+iterates through those admin roles and removes each before making permission overwrites
+
+looks at the array of original channels stored on the user object
+iterates through those channels and creates a permission overwrite on each to block the user from viewing it
+*/
+
 const makeChannelOverwrites = async (message, userObj) => {
   const { author, member } = message;
   const { adminRoles } = userObj;
@@ -13,6 +21,13 @@ const makeChannelOverwrites = async (message, userObj) => {
       });
   });
 };
+
+/*
+looks at the array of original channels stored on the user object
+iterates through those channels and removes overwrites for the target user
+
+if there are admin roles stored on the user object, it restores those roles to the user
+*/
 
 const removeChannelOverwrites = (userObj) => {
   const { guildChannels, userId, adminRoles, member } = userObj;
